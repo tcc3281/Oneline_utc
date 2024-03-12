@@ -57,4 +57,15 @@ public class Edge {
     public void setVisited(boolean visited) {
         this.visited = visited;
     }
+
+    @Override
+    public String toString() {
+        return "Edge{" +
+                "start=" + start +
+                ", end=" + end +
+                ", direction=" + direction +
+                ", count=" + count +
+                ", visited=" + visited +
+                '}';
+    }
 }

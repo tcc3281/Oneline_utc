@@ -1,5 +1,6 @@
 package Models;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Stack;
 
@@ -19,31 +20,63 @@ public class Graph {
         reset();
     }
     public void readData(int level){
-        /* Dữ liệu đầu vào
-         - Số điểm
-         - Danh sách điểm
-         - Số cạnh
-         - Danh sách cạnh : mặc định là vô hướng
-         Extend: danh sách cạnh có thể thêm thông số về sô lần phải đi qua và hướng đi
-         */
+        FileReader reader = null;
+        BufferedReader bufferedReader = null;
+        try{
+            File file = new File(".\\src\\Resources\\input.txt");
+            reader = new FileReader(file);
+            bufferedReader = new BufferedReader(reader);
+            int num;
+            String line;
+            line = bufferedReader.readLine();
+            num = Integer.parseInt(line);
+            for(int i=0;i<num;i++){
+                String[] nums = bufferedReader.readLine().split(" ");
+                Point point = new Point(Integer.parseInt(nums[0]),Integer.parseInt(nums[1]));
+                points.add(point);
+            }
+            line = bufferedReader.readLine();
+            num = Integer.parseInt(line);
+            for(int i=0;i<num;i++){
+                String[] nums = bufferedReader.readLine().split(" ");
+                Edge edge = new Edge(points.get(Integer.parseInt(nums[0])),points.get(Integer.parseInt(nums[1])));
+                edges.add(edge);
+            }
+        }catch (FileNotFoundException e){
+            System.out.println(e);
+        }catch (IOException d){
+            System.out.println(d);
+        }
+        finally {
+            try{
+                if (bufferedReader != null) {
+                    bufferedReader.close();
+                }
+                if (reader != null) {
+                    reader.close();
+                }
+            }catch (IOException e){
+                System.out.println(e);
+            }
+        }
     }
     public boolean connect(Point next){
-        /*
-         - Nhận giá trị 2 đỉnh đầu vào của cạnh
-         - Nếu cạnh đã được đi qua chưa
-          + Nếu đã đi qua thì trả vè false
-          + Nếu chưa đi qua thì nối đến điểm đó, gán điểm cur bằng next
-         */
         if(next==this.cur){
             return false;
         }
         for(Edge edge:this.cur.getEdges()){
             if(edge.getStart()==next && (edge.getDirection()==Edge.ENDTOSTART || edge.getDirection()==Edge.NODIRECTION)){
+                if(edge.isVisited()==VISIT){
+                    return false;
+                }
                 this.cur=next;
                 this.visits.push(this.cur);
                 return true;
             }
             if(edge.getEnd()==next && (edge.getDirection()==Edge.STARTTOEND || edge.getDirection()==Edge.NODIRECTION)){
+                if(edge.isVisited()==VISIT){
+                    return false;
+                }
                 this.cur=next;
                 this.visits.push(this.cur);
                 return true;
@@ -56,11 +89,6 @@ public class Graph {
         visits.push(cur);
     }
     public boolean isFinish(){
-        /*
-         kiểm tra xem còn có thể đi được không
-         - đi được trả về true
-         - không đi được trả về false
-         */
         for(Edge edge:this.cur.getEdges()){
             if(!edge.isVisited()){
                 return true;
@@ -69,9 +97,6 @@ public class Graph {
         return false;
     }
     public boolean isWinner(){
-        /*
-        kiểm tra xem người chơi đã thắng chưa
-         */
         for(Edge edge:edges){
             if(edge.isVisited()){
                 return false;
@@ -80,10 +105,6 @@ public class Graph {
         return true;
     }
     public boolean back(){
-        /*
-        - giới hạn số lần back là 3
-        - mỗi lần back là pop khỏi stack
-         */
         if(this.timesOfBack==0){
             return false;
         }
@@ -92,9 +113,10 @@ public class Graph {
         return true;
     }
     public void reset(){
-        this.timesOfBack=3;
         while (!visits.empty()){
             this.cur=this.visits.pop();
         }
+        this.cur=null;
+        this.timesOfBack=3;
     }
 }
