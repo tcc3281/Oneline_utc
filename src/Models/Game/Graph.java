@@ -1,4 +1,4 @@
-package Models;
+package Models.Game;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ public class Graph {
         FileReader reader = null;
         BufferedReader bufferedReader = null;
         try{
-            File file = new File(".\\src\\Resources\\input.txt");
+            File file = new File(".\\src\\Resources\\Levels\\input.txt");
             reader = new FileReader(file);
             bufferedReader = new BufferedReader(reader);
             int num;
@@ -40,6 +40,8 @@ public class Graph {
             for(int i=0;i<num;i++){
                 String[] nums = bufferedReader.readLine().split(" ");
                 Edge edge = new Edge(points.get(Integer.parseInt(nums[0])),points.get(Integer.parseInt(nums[1])));
+                edge.getStart().addEdge(edge);
+                edge.getEnd().addEdge(edge);
                 edges.add(edge);
             }
         }catch (FileNotFoundException e){
@@ -71,6 +73,7 @@ public class Graph {
                 }
                 this.cur=next;
                 this.visits.push(this.cur);
+                edge.setVisited(VISIT);
                 return true;
             }
             if(edge.getEnd()==next && (edge.getDirection()==Edge.STARTTOEND || edge.getDirection()==Edge.NODIRECTION)){
@@ -79,6 +82,7 @@ public class Graph {
                 }
                 this.cur=next;
                 this.visits.push(this.cur);
+                edge.setVisited(VISIT);
                 return true;
             }
         }
@@ -98,7 +102,8 @@ public class Graph {
     }
     public boolean isWinner(){
         for(Edge edge:edges){
-            if(edge.isVisited()){
+            System.out.println(edge);
+            if(!edge.isVisited()){
                 return false;
             }
         }
@@ -118,5 +123,17 @@ public class Graph {
         }
         this.cur=null;
         this.timesOfBack=3;
+    }
+
+    public ArrayList<Point> getPoints() {
+        return points;
+    }
+
+    public ArrayList<Edge> getEdges() {
+        return edges;
+    }
+
+    public Point getCur() {
+        return cur;
     }
 }

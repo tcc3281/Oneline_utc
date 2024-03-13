@@ -1,4 +1,4 @@
-package Models;
+package Models.Game;
 
 import java.util.ArrayList;
 
@@ -6,7 +6,9 @@ public class Point {
     protected ArrayList<Edge> edges;
     protected int x;
     protected int y;
-    public Point() {}
+    public Point() {
+        this.edges=new ArrayList<>();
+    }
 
     public ArrayList<Edge> getEdges() {
         return edges;
@@ -15,6 +17,7 @@ public class Point {
     public Point(int x, int y) {
         this.x = x;
         this.y = y;
+        this.edges=new ArrayList<>();
     }
 
     public int getX() {
@@ -33,8 +36,14 @@ public class Point {
         this.y = y;
     }
 
+    public void addEdge(Edge edge){
+        this.edges.add(edge);
+    }
     @Override
     public String toString() {
-        return String.valueOf(this.x)+" "+String.valueOf(this.y);
+        return "Point{" +
+                "x=" + x +
+                ", y=" + y +
+                '}';
     }
 }

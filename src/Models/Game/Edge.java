@@ -1,4 +1,4 @@
-package Models;
+package Models.Game;
 
 public class Edge {
     protected Point start;
