@@ -20,6 +20,7 @@ public class Graph {
         readData(1);
         reset();
     }
+
     public void readData(int level){
         FileReader reader = null;
         BufferedReader bufferedReader = null;
@@ -63,6 +64,7 @@ public class Graph {
             }
         }
     }
+
     public boolean connect(Point next){
         if(this.cur==null){
             setPointStart(next);
@@ -73,32 +75,34 @@ public class Graph {
         }
         for(Edge edge:this.cur.getEdges()){
             if(edge.getStart()==next && (edge.getDirection()==Edge.ENDTOSTART || edge.getDirection()==Edge.NODIRECTION)){
-                if(edge.isVisited()== Edge.VISIT){
+                if(!edge.isVisitable()){
                     return false;
                 }
                 this.cur=next;
                 this.visitedPoints.push(this.cur);
                 this.visitedEdges.push(edge);
-                edge.setVisited(Edge.VISIT);
+                edge.visit();
                 return true;
             }
             if(edge.getEnd()==next && (edge.getDirection()==Edge.STARTTOEND || edge.getDirection()==Edge.NODIRECTION)){
-                if(edge.isVisited()==Edge.VISIT){
+                if(!edge.isVisitable()){
                     return false;
                 }
                 this.cur=next;
                 this.visitedPoints.push(this.cur);
                 this.visitedEdges.push(edge);
-                edge.setVisited(Edge.VISIT);
+                edge.visit();
                 return true;
             }
         }
         return false;
     }
+
     public void setPointStart(Point start){
         this.cur = start;
         visitedPoints.push(cur);
     }
+
     public boolean isFinish(){
         if(this.cur==null){
             return false;
@@ -110,6 +114,7 @@ public class Graph {
         }
         return true;
     }
+
     public boolean isWinner(){
         for(Edge edge:edges){
             if(edge.isVisitable()){
@@ -118,6 +123,7 @@ public class Graph {
         }
         return true;
     }
+
     public boolean back(){
         if(this.cur==null){
             return false;
@@ -141,6 +147,7 @@ public class Graph {
         this.timesLeftBack--;
         return true;
     }
+
     public void reset(){
         if(!visitedPoints.empty()) {
             visitedPoints.clear();
@@ -151,7 +158,7 @@ public class Graph {
         this.cur=null;
         this.timesLeftBack =TIMESBACK;
         for (Edge e:this.edges) {
-            e.setVisited(Edge.NOTVISIT);
+            e.setNotVisit();
         }
     }
 

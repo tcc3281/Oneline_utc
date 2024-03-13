@@ -25,40 +25,20 @@ public class Edge {
         return start;
     }
 
-    public void setStart(Point start) {
-        this.start = start;
-    }
-
     public Point getEnd() {
         return end;
-    }
-
-    public void setEnd(Point end) {
-        this.end = end;
     }
 
     public int getDirection() {
         return direction;
     }
 
-    public void setDirection(int direction) {
-        this.direction = direction;
+    public void visit() {
+        this.visited++;
     }
 
-    public int getCount() {
-        return count;
-    }
-
-    public void setCount(int count) {
-        this.count = count;
-    }
-
-    public int isVisited() {
-        return visited;
-    }
-
-    public void setVisited(int visited) {
-        this.visited = visited;
+    public void setNotVisit(){
+        this.visited=NOTVISIT;
     }
 
     @Override
@@ -76,10 +56,8 @@ public class Edge {
         if(this.visited==NOTVISIT){
             return true;
         }
-        else if(this.visited==VISIT && this.count==SECONDVISIT){
-            return true;
-        }else {
-            return false;
+        else {
+            return this.visited == VISIT && this.count == SECONDVISIT;
         }
     }
 

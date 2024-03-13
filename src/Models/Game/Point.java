@@ -1,16 +1,11 @@
 package Models.Game;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class Point {
     protected ArrayList<Edge> edges;
     protected int x;
     protected int y;
-    public Point() {
-        this.edges=new ArrayList<>();
-    }
-
     public ArrayList<Edge> getEdges() {
         return edges;
     }
@@ -25,21 +20,14 @@ public class Point {
         return x;
     }
 
-    public void setX(int x) {
-        this.x = x;
-    }
-
     public int getY() {
         return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
     }
 
     public void addEdge(Edge edge){
         this.edges.add(edge);
     }
+
     @Override
     public String toString() {
         return "Point{" +

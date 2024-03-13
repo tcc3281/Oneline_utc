@@ -14,6 +14,7 @@ public class Game {
         graph=new Graph();
         steps=new LinkedList<>();
     }
+
     public void printPoints(){
         int i=0;
         for (Point point: this.graph.getPoints()) {
@@ -21,6 +22,7 @@ public class Game {
             System.out.println(point);
         }
     }
+
     public void printEdges(){
         int i=0;
         for (Edge edge:this.graph.getEdges()) {
@@ -28,14 +30,17 @@ public class Game {
             System.out.println(edge);
         }
     }
+
     public void play(){
         Scanner sc=new Scanner(System.in);
         int choice;
         do{
+            System.out.println("---------List of points");
             printPoints();
+            System.out.println("---------List of edges");
             printEdges();
-            System.out.println(this.graph.getVisitedPoints().size());
-            System.out.println(steps);
+            System.out.println("---------Visited Point: "+this.graph.getVisitedPoints().size()+" "+steps);
+            System.out.println("---------Current Point: "+this.graph.getCur());
             showMenu();
             String input=sc.nextLine();
             choice=Integer.parseInt(input);
@@ -60,8 +65,14 @@ public class Game {
                     break;
             }
         }while (!this.graph.isFinish() && choice!=4);
-        System.out.println(this.graph.isWinner());
+        System.out.println("");
+        if(this.graph.isWinner()) {
+            System.out.println("Win!");
+        }else{
+            System.out.println("Lose!");
+        }
     }
+
     public void showMenu(){
         System.out.println("Choose!");
         System.out.println("1. Connect.");
