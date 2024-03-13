@@ -1,6 +1,7 @@
 package Models.Game;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Point {
     protected ArrayList<Edge> edges;
@@ -45,5 +46,13 @@ public class Point {
                 "x=" + x +
                 ", y=" + y +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Point point = (Point) o;
+        return x == point.x && y == point.y;
     }
 }

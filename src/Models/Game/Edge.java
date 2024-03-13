@@ -5,17 +5,20 @@ public class Edge {
     protected Point end;
     protected int direction;
     protected int count;// đại diện cho số lần đi 0 < count <=2
-    protected boolean visited;
+    protected int visited;
     public static final int STARTTOEND = 1;
     public static final int ENDTOSTART = -1;
     public static final int NODIRECTION = 0;
+    public static final int NOTVISIT = 0;
+    public static final int VISIT = 1;
+    public static final int SECONDVISIT = 2;
 
-    public Edge(Point start, Point end) {
+    public Edge(Point start, Point end, int direction, int count) {
         this.start = start;
         this.end = end;
-        this.direction = NODIRECTION;
-        this.count = 1;
-        this.visited = false;
+        this.direction = direction;
+        this.count = count;
+        this.visited=NOTVISIT;
     }
 
     public Point getStart() {
@@ -50,11 +53,11 @@ public class Edge {
         this.count = count;
     }
 
-    public boolean isVisited() {
+    public int isVisited() {
         return visited;
     }
 
-    public void setVisited(boolean visited) {
+    public void setVisited(int visited) {
         this.visited = visited;
     }
 
@@ -67,5 +70,22 @@ public class Edge {
                 ", count=" + count +
                 ", visited=" + visited +
                 '}';
+    }
+
+    public boolean isVisitable(){
+        if(this.visited==NOTVISIT){
+            return true;
+        }
+        else if(this.visited==VISIT && this.count==SECONDVISIT){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    public void back(){
+        if(visited!=NOTVISIT){
+            visited--;
+        }
     }
 }

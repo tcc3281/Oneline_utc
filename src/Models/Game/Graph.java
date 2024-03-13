@@ -7,15 +7,16 @@ import java.util.Stack;
 public class Graph {
     protected ArrayList<Point> points;
     protected ArrayList<Edge> edges;
-    protected Stack<Point> visits;
+    protected Stack<Point> visitedPoints;
+    protected Stack<Edge> visitedEdges;
     protected Point cur;
-    protected int timesOfBack;
-    public static final boolean VISIT = true;
-    public static final boolean NOTVISIT = false;
+    protected int timesLeftBack;
+    public static final int TIMESBACK=3;
     public Graph() {
         this.points = new ArrayList<>();
         this.edges = new ArrayList<>();
-        this.visits = new Stack<>();
+        this.visitedPoints = new Stack<>();
+        this.visitedEdges=new Stack<>();
         readData(1);
         reset();
     }
@@ -39,7 +40,7 @@ public class Graph {
             num = Integer.parseInt(line);
             for(int i=0;i<num;i++){
                 String[] nums = bufferedReader.readLine().split(" ");
-                Edge edge = new Edge(points.get(Integer.parseInt(nums[0])),points.get(Integer.parseInt(nums[1])));
+                Edge edge = new Edge(points.get(Integer.parseInt(nums[0])),points.get(Integer.parseInt(nums[1])),Integer.parseInt(nums[2]),Integer.parseInt(nums[3]));
                 edge.getStart().addEdge(edge);
                 edge.getEnd().addEdge(edge);
                 edges.add(edge);
@@ -63,26 +64,32 @@ public class Graph {
         }
     }
     public boolean connect(Point next){
+        if(this.cur==null){
+            setPointStart(next);
+            return true;
+        }
         if(next==this.cur){
             return false;
         }
         for(Edge edge:this.cur.getEdges()){
             if(edge.getStart()==next && (edge.getDirection()==Edge.ENDTOSTART || edge.getDirection()==Edge.NODIRECTION)){
-                if(edge.isVisited()==VISIT){
+                if(edge.isVisited()== Edge.VISIT){
                     return false;
                 }
                 this.cur=next;
-                this.visits.push(this.cur);
-                edge.setVisited(VISIT);
+                this.visitedPoints.push(this.cur);
+                this.visitedEdges.push(edge);
+                edge.setVisited(Edge.VISIT);
                 return true;
             }
             if(edge.getEnd()==next && (edge.getDirection()==Edge.STARTTOEND || edge.getDirection()==Edge.NODIRECTION)){
-                if(edge.isVisited()==VISIT){
+                if(edge.isVisited()==Edge.VISIT){
                     return false;
                 }
                 this.cur=next;
-                this.visits.push(this.cur);
-                edge.setVisited(VISIT);
+                this.visitedPoints.push(this.cur);
+                this.visitedEdges.push(edge);
+                edge.setVisited(Edge.VISIT);
                 return true;
             }
         }
@@ -90,39 +97,62 @@ public class Graph {
     }
     public void setPointStart(Point start){
         this.cur = start;
-        visits.push(cur);
+        visitedPoints.push(cur);
     }
     public boolean isFinish(){
+        if(this.cur==null){
+            return false;
+        }
         for(Edge edge:this.cur.getEdges()){
-            if(!edge.isVisited()){
-                return true;
+            if(edge.isVisitable()){
+                return false;
             }
         }
-        return false;
+        return true;
     }
     public boolean isWinner(){
         for(Edge edge:edges){
-            System.out.println(edge);
-            if(!edge.isVisited()){
+            if(edge.isVisitable()){
                 return false;
             }
         }
         return true;
     }
     public boolean back(){
-        if(this.timesOfBack==0){
+        if(this.cur==null){
             return false;
         }
-        this.cur=visits.pop();
-        this.timesOfBack--;
+        if(this.visitedEdges.empty()){
+            return false;
+        }
+        if(this.timesLeftBack ==0){
+            return false;
+        }
+        if(!visitedEdges.empty()){
+            visitedEdges.pop().back();
+        }
+        if(visitedEdges.empty()){
+            visitedPoints.clear();
+            this.cur=null;
+        }else{
+            visitedPoints.pop();
+            this.cur= visitedPoints.peek();
+        }
+        this.timesLeftBack--;
         return true;
     }
     public void reset(){
-        while (!visits.empty()){
-            this.cur=this.visits.pop();
+        if(!visitedPoints.empty()) {
+            visitedPoints.clear();
+        }
+        if(!visitedEdges.empty()){
+            visitedEdges.clear();
         }
         this.cur=null;
-        this.timesOfBack=3;
+        this.timesLeftBack =TIMESBACK;
+        for (Edge e:this.edges) {
+            e.setVisited(Edge.NOTVISIT);
+        }
     }
 
     public ArrayList<Point> getPoints() {
@@ -135,5 +165,9 @@ public class Graph {
 
     public Point getCur() {
         return cur;
+    }
+
+    public Stack<Point> getVisitedPoints() {
+        return visitedPoints;
     }
 }

@@ -4,12 +4,15 @@ import Models.Game.Graph;
 import Models.Game.Edge;
 import Models.Game.Point;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Scanner;
 
 public class Game {
+    private LinkedList<Integer> steps;
     private Graph graph;
     public Game(){
         graph=new Graph();
+        steps=new LinkedList<>();
     }
     public void printPoints(){
         int i=0;
@@ -26,24 +29,44 @@ public class Game {
         }
     }
     public void play(){
-        boolean isWin=false;
-        int i=0;
-        ArrayList<Integer> ends=new ArrayList<>();
-        ends.add(1);
-        ends.add(2);
-        ends.add(2);
-        ends.add(3);
-        ends.add(0);
-        ends.add(0);
-        ends.add(2);
-        this.graph.setPointStart(this.graph.getPoints().get(0));
-        while(this.graph.isFinish()){
-            System.out.println("Step "+(i)+":");
-            System.out.println(this.graph.getCur());
-            System.out.println(this.graph.getPoints().get(ends.get(i)));
-            System.out.println(this.graph.connect(this.graph.getPoints().get(ends.get(i))));
-            i++;
-        }
+        Scanner sc=new Scanner(System.in);
+        int choice;
+        do{
+            printPoints();
+            printEdges();
+            System.out.println(this.graph.getVisitedPoints().size());
+            System.out.println(steps);
+            showMenu();
+            String input=sc.nextLine();
+            choice=Integer.parseInt(input);
+            switch (choice){
+                case 1:
+                    System.out.println("Choose the point");
+                    int index=Integer.parseInt(sc.nextLine());
+                    if(this.graph.connect(this.graph.getPoints().get(index))){
+                        steps.add(index);
+                    }
+                    break;
+                case 2:
+                    if(this.graph.back()){
+                        steps.removeLast();
+                    }
+                    break;
+                case 3:
+                    this.graph.reset();
+                    steps.clear();
+                    break;
+                default:
+                    break;
+            }
+        }while (!this.graph.isFinish() && choice!=4);
         System.out.println(this.graph.isWinner());
+    }
+    public void showMenu(){
+        System.out.println("Choose!");
+        System.out.println("1. Connect.");
+        System.out.println("2. Back.");
+        System.out.println("3. Reset.");
+        System.out.println("4. Out.");
     }
 }
