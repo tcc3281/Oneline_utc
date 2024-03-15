@@ -4,6 +4,7 @@ import Models.Game.Edge;
 import Models.Game.Graph;
 import Models.Game.Point;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class Hint {
@@ -25,18 +26,17 @@ public class Hint {
         graph.readData(level);
     }
 
-    public void play() {
+    public LinkedList<Point> play() {
         for (Point p : graph.getPoints()) {
             this.graph.connect(p);
             this.steps.add(p);
             if (_try(p)) {
-                System.out.println(steps);
-                break;
+                return steps;
             }
             this.graph.reset();
             this.steps.clear();
-
         }
+        return null;
     }
 
     public boolean _try(Point p) {

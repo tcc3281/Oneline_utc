@@ -22,6 +22,12 @@ public class Graph {
     }
 
     public void readData(int level) {
+        if(this.points!=null){
+            this.points.clear();
+        }
+        if(this.edges!=null){
+            this.edges.clear();
+        }
         FileReader reader = null;
         BufferedReader bufferedReader = null;
         try {

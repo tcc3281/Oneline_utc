@@ -38,8 +38,12 @@ public class ViewConsolog {
     }
 
     public void play() {
-        graph.readData(1);
+        graph.readData(level);
         Scanner sc = new Scanner(System.in);
+        System.out.println("Choose Level 1-2: ");
+        level = Integer.parseInt(sc.nextLine());
+        graph.readData(level);
+        hint.setLevel(level);
         int choice;
         do {
             System.out.println("---------List of points");
@@ -69,8 +73,8 @@ public class ViewConsolog {
                     steps.clear();
                     break;
                 case 4:
-                    hint.setLevel(1);
-                    hint.play();
+                    hint.setLevel(level);
+                    System.out.println("Hint: " + hint.play());
                     this.graph.reset();
                     steps.clear();
                     break;
