@@ -1,11 +1,13 @@
 package Models.Game;
 
+import java.util.Objects;
+
 public class Edge {
-    protected Point start;
-    protected Point end;
-    protected int direction;
-    protected int count;// đại diện cho số lần đi 0 < count <=2
-    protected int visited;
+    private Point start;
+    private Point end;
+    private int direction;
+    private int count;// đại diện cho số lần đi 0 < count <=2
+    private int visited;
     public static final int STARTTOEND = 1;
     public static final int ENDTOSTART = -1;
     public static final int NODIRECTION = 0;
@@ -29,15 +31,19 @@ public class Edge {
         return end;
     }
 
+    public int getCount() {
+        return count;
+    }
+
     public int getDirection() {
         return direction;
     }
 
-    public void visit() {
+    protected void visit() {
         this.visited++;
     }
 
-    public void setNotVisit() {
+    protected void setNotVisit() {
         this.visited = NOTVISIT;
     }
 
@@ -52,7 +58,7 @@ public class Edge {
                 '}';
     }
 
-    public boolean isVisitable() {
+    protected boolean isVisitable() {
         if (this.visited == NOTVISIT) {
             return true;
         } else {
@@ -60,9 +66,52 @@ public class Edge {
         }
     }
 
-    public void back() {
+    protected void back() {
         if (visited != NOTVISIT) {
             visited--;
         }
+    }
+
+    public boolean isVisitableFrom(Point point) {
+        if (this.direction == NODIRECTION && (point.equals(this.start) || point.equals(this.end))) {
+            return true;
+        } else if (this.direction == Edge.STARTTOEND && point.equals(this.start)) {
+            return true;
+        } else if (this.direction == Edge.ENDTOSTART && point.equals(this.end)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean isVisitableTo(Point point) {
+        if (this.direction == NODIRECTION && (point.equals(this.start) || point.equals(this.end))) {
+            return true;
+        } else if (this.direction == Edge.STARTTOEND && point.equals(this.end)) {
+            return true;
+        } else if (this.direction == Edge.ENDTOSTART && point.equals(this.start)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public Point ortherPoint(Point p) {
+        if (p.equals(this.start)) return this.end;
+        else if (p.equals(this.end)) return this.start;
+        else return null;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Edge edge = (Edge) o;
+        return direction == edge.direction && count == edge.count && start.equals(edge.start) && end.equals(edge.end);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(start, end, direction, count);
     }
 }

@@ -1,5 +1,6 @@
 package Views;
 
+import Models.Bot.Hint;
 import Models.Game.Edge;
 import Models.Game.Graph;
 import Models.Game.Point;
@@ -10,10 +11,14 @@ import java.util.Scanner;
 public class ViewConsolog {
     private LinkedList<Integer> steps;
     private Graph graph;
+    private Hint hint;
+    private int level;
 
     public ViewConsolog() {
         graph = new Graph();
+        hint = new Hint();
         steps = new LinkedList<>();
+        level = 1;
     }
 
     public void printPoints() {
@@ -33,6 +38,7 @@ public class ViewConsolog {
     }
 
     public void play() {
+        graph.readData(1);
         Scanner sc = new Scanner(System.in);
         int choice;
         do {
@@ -62,10 +68,16 @@ public class ViewConsolog {
                     this.graph.reset();
                     steps.clear();
                     break;
+                case 4:
+                    hint.setLevel(1);
+                    hint.play();
+                    this.graph.reset();
+                    steps.clear();
+                    break;
                 default:
                     break;
             }
-        } while (!this.graph.isFinish() && choice != 4);
+        } while (!this.graph.isFinish() && choice != 5);
         System.out.println();
         if (this.graph.isWinner()) {
             System.out.println("Win!");
@@ -79,6 +91,7 @@ public class ViewConsolog {
         System.out.println("1. Connect.");
         System.out.println("2. Back.");
         System.out.println("3. Reset.");
-        System.out.println("4. Out.");
+        System.out.println("4. Hint.");
+        System.out.println("5. Out.");
     }
 }

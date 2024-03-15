@@ -5,12 +5,13 @@ import java.util.ArrayList;
 import java.util.Stack;
 
 public class Graph {
-    protected ArrayList<Point> points;
-    protected ArrayList<Edge> edges;
-    protected Stack<Point> visitedPoints;
-    protected Stack<Edge> visitedEdges;
-    protected Point cur;
-    protected int timesLeftBack;
+    private ArrayList<Point> points;
+    private ArrayList<Edge> edges;
+    private Stack<Point> visitedPoints;
+    private Stack<Edge> visitedEdges;
+    private Point cur;
+    private int timesLeftBack;
+    private final String PATH = ".\\src\\Resources\\Levels\\level_";
     public static final int TIMESBACK = 3;
 
     public Graph() {
@@ -18,15 +19,13 @@ public class Graph {
         this.edges = new ArrayList<>();
         this.visitedPoints = new Stack<>();
         this.visitedEdges = new Stack<>();
-        readData(1);
-        reset();
     }
 
     public void readData(int level) {
         FileReader reader = null;
         BufferedReader bufferedReader = null;
         try {
-            File file = new File(".\\src\\Resources\\Levels\\level_" + String.format("%02d", level) + ".txt");
+            File file = new File(PATH + String.format("%02d", level) + ".txt");
             reader = new FileReader(file);
             bufferedReader = new BufferedReader(reader);
             int num;
@@ -63,6 +62,7 @@ public class Graph {
                 System.out.println(e);
             }
         }
+        reset();
     }
 
     public boolean connect(Point next) {
@@ -74,17 +74,7 @@ public class Graph {
             return false;
         }
         for (Edge edge : this.cur.getEdges()) {
-            if (edge.getStart() == next && (edge.getDirection() == Edge.ENDTOSTART || edge.getDirection() == Edge.NODIRECTION)) {
-                if (!edge.isVisitable()) {
-                    return false;
-                }
-                this.cur = next;
-                this.visitedPoints.push(this.cur);
-                this.visitedEdges.push(edge);
-                edge.visit();
-                return true;
-            }
-            if (edge.getEnd() == next && (edge.getDirection() == Edge.STARTTOEND || edge.getDirection() == Edge.NODIRECTION)) {
+            if (edge.isVisitableTo(next)) {
                 if (!edge.isVisitable()) {
                     return false;
                 }

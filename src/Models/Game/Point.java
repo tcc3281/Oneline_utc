@@ -3,9 +3,9 @@ package Models.Game;
 import java.util.ArrayList;
 
 public class Point {
-    protected ArrayList<Edge> edges;
-    protected int x;
-    protected int y;
+    private ArrayList<Edge> edges;
+    private int x;
+    private int y;
 
     public ArrayList<Edge> getEdges() {
         return edges;
