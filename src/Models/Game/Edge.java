@@ -18,7 +18,7 @@ public class Edge {
         this.end = end;
         this.direction = direction;
         this.count = count;
-        this.visited=NOTVISIT;
+        this.visited = NOTVISIT;
     }
 
     public Point getStart() {
@@ -37,8 +37,8 @@ public class Edge {
         this.visited++;
     }
 
-    public void setNotVisit(){
-        this.visited=NOTVISIT;
+    public void setNotVisit() {
+        this.visited = NOTVISIT;
     }
 
     @Override
@@ -52,17 +52,16 @@ public class Edge {
                 '}';
     }
 
-    public boolean isVisitable(){
-        if(this.visited==NOTVISIT){
+    public boolean isVisitable() {
+        if (this.visited == NOTVISIT) {
             return true;
-        }
-        else {
+        } else {
             return this.visited == VISIT && this.count == SECONDVISIT;
         }
     }
 
-    public void back(){
-        if(visited!=NOTVISIT){
+    public void back() {
+        if (visited != NOTVISIT) {
             visited--;
         }
     }

@@ -6,6 +6,7 @@ public class Point {
     protected ArrayList<Edge> edges;
     protected int x;
     protected int y;
+
     public ArrayList<Edge> getEdges() {
         return edges;
     }
@@ -13,7 +14,7 @@ public class Point {
     public Point(int x, int y) {
         this.x = x;
         this.y = y;
-        this.edges=new ArrayList<>();
+        this.edges = new ArrayList<>();
     }
 
     public int getX() {
@@ -24,7 +25,7 @@ public class Point {
         return y;
     }
 
-    public void addEdge(Edge edge){
+    public void addEdge(Edge edge) {
         this.edges.add(edge);
     }
 
