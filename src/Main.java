@@ -1,9 +1,8 @@
-import Models.Timer.CountdownTimer;
-import Views.Game;
+import Views.ViewConsolog;
 
 public class Main {
     public static void main(String[] args) {
-        Game g = new Game();
+        ViewConsolog g = new ViewConsolog();
         g.play();
     }
 }

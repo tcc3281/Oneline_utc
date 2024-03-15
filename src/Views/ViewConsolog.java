@@ -7,11 +7,11 @@ import Models.Game.Point;
 import java.util.LinkedList;
 import java.util.Scanner;
 
-public class Game {
+public class ViewConsolog {
     private LinkedList<Integer> steps;
     private Graph graph;
 
-    public Game() {
+    public ViewConsolog() {
         graph = new Graph();
         steps = new LinkedList<>();
     }
@@ -66,7 +66,7 @@ public class Game {
                     break;
             }
         } while (!this.graph.isFinish() && choice != 4);
-        System.out.println("");
+        System.out.println();
         if (this.graph.isWinner()) {
             System.out.println("Win!");
         } else {
