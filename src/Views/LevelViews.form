@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="Views.LevelViews">
+  <grid id="27dc6" binding="JPanelLevel" layout-manager="GridLayoutManager" row-count="3" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="0" left="0" bottom="0" right="0"/>
+    <constraints>
+      <xy x="20" y="20" width="749" height="400"/>
+    </constraints>
+    <properties>
+      <background color="-1"/>
+      <focusable value="false"/>
+    </properties>
+    <border type="none"/>
+    <children>
+      <grid id="9140d" layout-manager="BorderLayout" hgap="120" vgap="20">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <background color="-1"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="96239" class="javax.swing.JButton" binding="btnBackLevel">
+            <constraints border-constraint="West"/>
+            <properties>
+              <background color="-1"/>
+              <borderPainted value="false"/>
+              <contentAreaFilled value="false"/>
+              <focusable value="false"/>
+              <icon value="Resources/Images/back.png"/>
+              <text value=""/>
+            </properties>
+          </component>
+          <component id="13f2e" class="javax.swing.JLabel">
+            <constraints border-constraint="Center"/>
+            <properties>
+              <alignmentX value="1.0"/>
+              <autoscrolls value="false"/>
+              <font size="24"/>
+              <foreground color="-13947600"/>
+              <text value="Level"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <grid id="cee3a" layout-manager="GridLayoutManager" row-count="4" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="50" left="40" bottom="20" right="0"/>
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="8" fill="2" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <background color="-1"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="3a8e" class="javax.swing.JRadioButton" binding="rdbEasy">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-1"/>
+              <contentAreaFilled value="false"/>
+              <focusPainted value="true"/>
+              <focusable value="false"/>
+              <font size="20"/>
+              <foreground color="-13947600"/>
+              <label value="   Easy"/>
+              <margin top="2" left="2" bottom="2" right="2"/>
+              <requestFocusEnabled value="true"/>
+              <text value="   Easy"/>
+            </properties>
+          </component>
+          <component id="62974" class="javax.swing.JRadioButton" binding="rdbMedium">
+            <constraints>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-1"/>
+              <contentAreaFilled value="false"/>
+              <focusable value="false"/>
+              <font size="20"/>
+              <foreground color="-13947600"/>
+              <label value="   Medium"/>
+              <text value="   Medium"/>
+            </properties>
+          </component>
+          <component id="86a97" class="javax.swing.JRadioButton" binding="rdbHard">
+            <constraints>
+              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-1"/>
+              <contentAreaFilled value="false"/>
+              <focusable value="false"/>
+              <font size="20"/>
+              <foreground color="-13947600"/>
+              <label value="   Hard"/>
+              <selected value="false"/>
+              <text value="   Hard"/>
+            </properties>
+          </component>
+          <component id="97730" class="javax.swing.JRadioButton" binding="rdbCustom">
+            <constraints>
+              <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-1"/>
+              <contentAreaFilled value="false"/>
+              <focusable value="false"/>
+              <font size="20"/>
+              <foreground color="-13947600"/>
+              <label value="   Custom"/>
+              <text value="   Custom"/>
+            </properties>
+          </component>
+          <component id="bd5b8" class="javax.swing.JComboBox" binding="comboBox1" default-binding="true">
+            <constraints>
+              <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="10" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-1"/>
+              <editable value="false"/>
+              <enabled value="true"/>
+              <focusable value="false"/>
+              <model>
+                <item value="02:30"/>
+                <item value="03:00"/>
+                <item value="03:30"/>
+                <item value="04:00"/>
+                <item value="04:30"/>
+                <item value="05:00"/>
+              </model>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <grid id="cc405" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="20" left="0" bottom="50" right="0"/>
+        <constraints>
+          <grid row="2" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <background color="-1"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="7248a" class="javax.swing.JButton" binding="saveButton" default-binding="true">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-868396"/>
+              <borderPainted value="false"/>
+              <focusable value="false"/>
+              <font size="20"/>
+              <foreground color="-11247759"/>
+              <text value="Save"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+    </children>
+  </grid>
+  <buttonGroups>
+    <group name="buttonGroup">
+      <member id="3a8e"/>
+      <member id="62974"/>
+      <member id="97730"/>
+      <member id="86a97"/>
+    </group>
+  </buttonGroups>
+</form>
