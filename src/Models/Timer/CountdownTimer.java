@@ -11,7 +11,7 @@ public class CountdownTimer {
 
     public static final int EASY = 180;
     public static final int MEDIUM = 60;
-    public static final int HARD = 30;
+    public static final int HARD = 15;
 
     public CountdownTimer(int second) {
         this.second = second % 60;
