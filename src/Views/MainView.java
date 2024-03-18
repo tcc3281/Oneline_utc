@@ -2,10 +2,7 @@ package Views;
 
 import Controllers.PlayController;
 import Models.Timer.CountdownTimer;
-import Views.Forms.ChallengesView;
-import Views.Forms.HomeView;
-import Views.Forms.LevelView;
-import Views.Forms.PlayView;
+import Views.Forms.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -57,11 +54,15 @@ public class MainView extends JFrame implements ActionListener {
         playView.getBtnReset().addActionListener(this);
         playView.getBtnReturn().addActionListener(this);
         levelView.getSaveButton().addActionListener(this);
+        playView.getBtnNext().addActionListener(this);
+
 
         JP.add(homeView.getJPanelHome(), "Home");
         JP.add(levelView.getJPanelLevel(), "Level");
-        JP.add(challengesView.getJPanelChallenges(), "Challenges");
+        JP.add(challengesView.getJPanelChallenges(this.controller.getCurChallenge()), "Challenges");
         JP.add(playView.getJPanelPlay(), "Play");
+
+        challengesView.addListener(this);
 
         getContentPane().add(JP, BorderLayout.CENTER);
         this.addWindowListener(new WindowAdapter() {
@@ -80,6 +81,7 @@ public class MainView extends JFrame implements ActionListener {
             this.controller.setLevel();
         } else if (e.getSource() == homeView.getBtnChallenges()) {
             cardLayout.show(JP, "Challenges");
+
         } else if (e.getSource() == homeView.getBtnPlay()) {
             this.controller.setChallenge();
             cardLayout.show(JP, "Play");
@@ -103,6 +105,15 @@ public class MainView extends JFrame implements ActionListener {
         {
             this.controller.setTime();
             cardLayout.show(JP, "Home");
+        } else if(e.getSource() == playView.getBtnNext())
+        {
+            this.controller.nextChallenges();
+        }else {
+            int position = challengesView.getLstItem().indexOf((JButton) e.getSource()) + 1;
+            this.controller.setCurPlay(position);
+            this.controller.setChallenge();
+            cardLayout.show(JP, "Play");
+            this.controller.runTime();
         }
 
     }
@@ -115,5 +126,8 @@ public class MainView extends JFrame implements ActionListener {
     }
     public PlayView getPlayViews() {
         return playView;
+    }
+    public ChallengesView getChallengesView(){
+        return challengesView;
     }
 }

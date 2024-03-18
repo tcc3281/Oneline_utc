@@ -2,11 +2,14 @@ package Views.Forms;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class ChallengesView {
     private JPanel JPanelChallenges;
     private JButton btnBackChallenges;
     private JPanel JPItem;
+    private ArrayList<JButton> lstItem;
 
 
     public ChallengesView(JPanel JPanelChallenges, JButton btnBackChallenges, JPanel JPItem) {
@@ -16,10 +19,11 @@ public class ChallengesView {
     }
 
     public ChallengesView() {
+        lstItem = new ArrayList<>();
     }
 
-    public JPanel getJPanelChallenges() {
-        AddItems(15);
+    public JPanel getJPanelChallenges(int c) {
+        AddItems(c);
         return JPanelChallenges;
     }
 
@@ -39,8 +43,18 @@ public class ChallengesView {
             item = new ChallengesItem(i);
             item.getJPanelItem().setPreferredSize(new Dimension(100, 150));
             JPItem.add(item.getJPanelItem());
+            lstItem.add(item.getBtnPlayItem());
         }
         JPItem.revalidate(); // Cập nhật layout của JPItem
         JPItem.repaint(); // Vẽ lại JPItem
+    }
+    public void addListener(ActionListener ac){
+        for(JButton item : lstItem){
+            item.addActionListener(ac);
+        }
+    }
+
+    public ArrayList<JButton> getLstItem() {
+        return lstItem;
     }
 }

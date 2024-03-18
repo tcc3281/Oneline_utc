@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.Timer;
 
 public class PlayController {
+
+
     private MainView views;
     private Graph models;
     private CountdownTimer timer;
@@ -38,6 +40,9 @@ public class PlayController {
         hintValue = null;
         this.playPanel = views.getPlayViews().getMainPlay();
         this.playPanel.setController(this);
+    }
+    public int getCurChallenge() {
+        return curChallenge;
     }
 
     public void ramdomColor() {
@@ -66,8 +71,10 @@ public class PlayController {
         ramdomColor();
         this.views.getPlayViews().setTitle("Play " + String.valueOf(this.curPlay));
         this.models.readData(curPlay);
+
         if (timer != null) timer.cancel();
         timer = new CountdownTimer(curLevel, this);
+
         List<Point> p = this.models.getPoints();
         List<Edge> e = this.models.getEdges();
         this.views.getPlayViews().setPlayView();
@@ -283,5 +290,20 @@ public class PlayController {
             views.getLevelView().getRdbCustom().setSelected(true);
             views.getLevelView().getjSPCustom().setValue(date);
         }
+    }
+    public void nextChallenges(){
+        if(curPlay >= curChallenge)
+            return;
+        else
+        {
+            curPlay++;
+            setChallenge();
+            this.timer.startTime();
+            reset();
+        }
+    }
+
+    public void setCurPlay(int curPlay) {
+        this.curPlay = curPlay;
     }
 }
