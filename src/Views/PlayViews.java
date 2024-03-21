@@ -13,6 +13,7 @@ public class PlayViews {
     private JLabel First;
     private JLabel Second;
     private JLabel Three;
+    private JPanel jPanelBoardGame;
 
     public PlayViews() {
     }
@@ -28,6 +29,10 @@ public class PlayViews {
         First = first;
         Second = second;
         Three = three;
+    }
+
+    public JPanel getjPanelBoardGame() {
+        return jPanelBoardGame;
     }
 
     public JPanel getJPanelPlay() {

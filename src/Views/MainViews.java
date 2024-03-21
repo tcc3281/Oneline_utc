@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainViews extends JFrame  implements ActionListener {
     private HomeViews homeViews;
@@ -41,8 +43,35 @@ public class MainViews extends JFrame  implements ActionListener {
         JP.add(playViews.getJPanelPlay(),"Play");
 
         getContentPane().add(JP,BorderLayout.CENTER);
-    }
 
+        test();
+    }
+    public void test(){
+        playViews.getjPanelBoardGame();
+        playViews.getjPanelBoardGame().setLayout(new GridLayout(1,1));
+
+        RoundButton roundButton1 = new RoundButton("");
+        RoundButton roundButton2 = new RoundButton("");
+//
+        roundButton1.setBounds(50, 50, 17, 17);
+        roundButton2.setBounds(100, 100, 17, 17);
+//
+        List<RoundButton> list=new ArrayList<>();
+        list.add(roundButton1);
+        list.add(roundButton2);
+//// Tạo LinePanel với kích thước đủ lớn để chứa cả hai nút và đường thẳng
+        LinePanel line = new LinePanel(list);
+//        line.setBounds(0, 0, playViews.getjPanelBoardGame().getWidth(), playViews.getjPanelBoardGame().getHeight());
+//
+//// Thêm LinePanel vào JPanel trước
+        playViews.getjPanelBoardGame().add(line);
+//
+//// Sau đó thêm hai RoundButton để chúng nằm trên cùng
+//
+//// Cuối cùng, gọi repaint để cập nhật giao diện
+//        playViews.getjPanelBoardGame().repaint();
+
+    }
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == homeViews.getBtnLevel()){
