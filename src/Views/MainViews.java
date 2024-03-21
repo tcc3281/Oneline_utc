@@ -52,13 +52,19 @@ public class MainViews extends JFrame  implements ActionListener {
 
         RoundButton roundButton1 = new RoundButton("");
         RoundButton roundButton2 = new RoundButton("");
+        RoundButton roundButton3 = new RoundButton("");
+        RoundButton roundButton4 = new RoundButton("");
 //
-        roundButton1.setBounds(50, 50, 17, 17);
-        roundButton2.setBounds(100, 100, 17, 17);
+        roundButton1.setBounds(30, 150, 17, 17);
+        roundButton2.setBounds(150, 30, 17, 17);
+        roundButton3.setBounds(270, 150, 17, 17);
+        roundButton4.setBounds(150, 270, 17, 17);
 //
         List<RoundButton> list=new ArrayList<>();
         list.add(roundButton1);
         list.add(roundButton2);
+        list.add(roundButton3);
+        list.add(roundButton4);
 //// Tạo LinePanel với kích thước đủ lớn để chứa cả hai nút và đường thẳng
         LinePanel line = new LinePanel(list);
 //        line.setBounds(0, 0, playViews.getjPanelBoardGame().getWidth(), playViews.getjPanelBoardGame().getHeight());
