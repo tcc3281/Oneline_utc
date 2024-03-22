@@ -23,38 +23,24 @@ public class ChallengesViews {
         return JPanelChallenges;
     }
 
-    public void setJPanelChallenges(JPanel JPanelChallenges) {
-        this.JPanelChallenges = JPanelChallenges;
+    public JPanel getJPItem() {
+        return JPItem;
     }
 
     public JButton getBtnBackChallenges() {
         return btnBackChallenges;
     }
 
-    public void setBtnBackChallenges(JButton btnBackChallenges) {
-        this.btnBackChallenges = btnBackChallenges;
-    }
-
-    public JPanel getJPItem() {
-        return JPItem;
-    }
-
-    public void setJPItem(JPanel JPItem) {
-        this.JPItem = JPItem;
-    }
-    public  void AddItems(int count){
+    public void AddItems(int count) {
         ChallengesItem item;
         int numRows = (int) Math.ceil((double) count / 2);
-        JPItem.setLayout(new GridLayout(numRows, 2,20,20)); // Đặt GridLayout cho JPItem
+        JPItem.setLayout(new GridLayout(numRows, 2, 20, 20)); // Đặt GridLayout cho JPItem
         for (int i = 1; i <= count; i++) {
             item = new ChallengesItem(i);
-            item.getJPanelItem().setPreferredSize(new Dimension(100,150));
+            item.getJPanelItem().setPreferredSize(new Dimension(100, 150));
             JPItem.add(item.getJPanelItem());
         }
         JPItem.revalidate(); // Cập nhật layout của JPItem
         JPItem.repaint(); // Vẽ lại JPItem
-
-
-
     }
 }

@@ -1,6 +1,9 @@
 package Views;
 
+import Views.PlayArea.LinePanel;
+
 import javax.swing.*;
+import java.awt.*;
 
 public class PlayViews {
     private JPanel JPanelPlay;
@@ -14,6 +17,8 @@ public class PlayViews {
     private JLabel Second;
     private JLabel Three;
     private JPanel jPanelBoardGame;
+    private JPanel jPanelHead;
+    private LinePanel mainPlay;
 
     public PlayViews() {
     }
@@ -39,79 +44,56 @@ public class PlayViews {
         return JPanelPlay;
     }
 
-    public void setJPanelPlay(JPanel JPanelPlay) {
-        this.JPanelPlay = JPanelPlay;
-    }
-
     public JButton getBtnBackPlay() {
         return btnBackPlay;
-    }
-
-    public void setBtnBackPlay(JButton btnBackPlay) {
-        this.btnBackPlay = btnBackPlay;
     }
 
     public JButton getBtnNext() {
         return btnNext;
     }
 
-    public void setBtnNext(JButton btnNext) {
-        this.btnNext = btnNext;
-    }
-
     public JLabel getTxtTimer() {
         return txtTimer;
-    }
-
-    public void setTxtTimer(JLabel txtTimer) {
-        this.txtTimer = txtTimer;
     }
 
     public JButton getBtnReturn() {
         return btnReturn;
     }
 
-    public void setBtnReturn(JButton btnReturn) {
-        this.btnReturn = btnReturn;
-    }
-
     public JButton getBtnHint() {
         return btnHint;
-    }
-
-    public void setBtnHint(JButton btnHint) {
-        this.btnHint = btnHint;
     }
 
     public JButton getBtnReset() {
         return btnReset;
     }
 
-    public void setBtnReset(JButton btnReset) {
-        this.btnReset = btnReset;
-    }
-
     public JLabel getFirst() {
         return First;
-    }
-
-    public void setFirst(JLabel first) {
-        First = first;
     }
 
     public JLabel getSecond() {
         return Second;
     }
 
-    public void setSecond(JLabel second) {
-        Second = second;
-    }
-
     public JLabel getThree() {
         return Three;
     }
 
-    public void setThree(JLabel three) {
-        Three = three;
+    public JPanel getjPanelHead() {
+        return jPanelHead;
+    }
+
+    public LinePanel getMainPlay() {
+        return mainPlay;
+    }
+
+    public void setBoardGame() {
+        if (mainPlay == null)
+            mainPlay = new LinePanel(jPanelBoardGame.getWidth(), jPanelBoardGame.getHeight());
+        jPanelBoardGame.setLayout(new GridLayout(1, 1));
+        mainPlay.setSize(new Dimension(jPanelBoardGame.getWidth(), jPanelBoardGame.getHeight()));
+        jPanelBoardGame.add(mainPlay);
+
     }
 }

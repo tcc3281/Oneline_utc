@@ -1,5 +1,7 @@
 package Models.Timer;
 
+import Controllers.PlayController;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -7,17 +9,23 @@ public class CountdownTimer {
     private Timer timer;
     protected int second;
     protected int minute;
-
+    private PlayController controller;
 
     public static final int EASY = 180;
     public static final int MEDIUM = 60;
     public static final int HARD = 15;
+    private boolean isPause;
 
-    public CountdownTimer(int second) {
+    public CountdownTimer(int second, PlayController controller) {
+        this.controller = controller;
         this.second = second % 60;
         this.minute = second / 60;
         timer = new Timer();
-        timer.scheduleAtFixedRate(new RemindTask(), 0, 100);
+        isPause = false;
+    }
+
+    public void startTime() {
+        timer.scheduleAtFixedRate(new RemindTask(), 0, 1000);
     }
 
     public String getTime() {
@@ -25,6 +33,8 @@ public class CountdownTimer {
     }
 
     protected boolean runTime() {
+        if (isPause) return true;
+
         if (second == 0 && minute == 0) {
             return false;
         }
@@ -42,19 +52,22 @@ public class CountdownTimer {
         @Override
         public void run() {
             if (runTime()) {
-                System.out.println(getTime());
+                controller.setTextTime(getTime());
             } else {
-                System.out.println("Time out!");
                 timer.cancel();
             }
         }
     }
 
-    public int getSecond() {
-        return second;
+    public void continueTime() {
+        isPause = false;
     }
 
-    public int getMinute() {
-        return minute;
+    public void pauseTime() {
+        isPause = true;
+    }
+
+    public boolean isPause() {
+        return isPause;
     }
 }

@@ -1,13 +1,14 @@
 package Models.Game;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Point {
-    private ArrayList<Edge> edges;
+    private List<Edge> edges;
     private int x;
     private int y;
 
-    public ArrayList<Edge> getEdges() {
+    public List<Edge> getEdges() {
         return edges;
     }
 

@@ -1,18 +1,30 @@
 package Models.Game;
 
+import Controllers.PlayController;
+
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
 public class Graph {
-    private ArrayList<Point> points;
-    private ArrayList<Edge> edges;
+    private List<Point> points;
+    private List<Edge> edges;
     private Stack<Point> visitedPoints;
     private Stack<Edge> visitedEdges;
     private Point cur;
+    private PlayController controller;
     private int timesLeftBack;
     private final String PATH = ".\\src\\Resources\\Levels\\level_";
     public static final int TIMESBACK = 3;
+
+    public Graph(PlayController controller) {
+        this.controller = controller;
+        this.points = new ArrayList<>();
+        this.edges = new ArrayList<>();
+        this.visitedPoints = new Stack<>();
+        this.visitedEdges = new Stack<>();
+    }
 
     public Graph() {
         this.points = new ArrayList<>();
@@ -22,10 +34,10 @@ public class Graph {
     }
 
     public void readData(int level) {
-        if(this.points!=null){
+        if (this.points != null) {
             this.points.clear();
         }
-        if(this.edges!=null){
+        if (this.edges != null) {
             this.edges.clear();
         }
         FileReader reader = null;
@@ -158,11 +170,11 @@ public class Graph {
         }
     }
 
-    public ArrayList<Point> getPoints() {
+    public List<Point> getPoints() {
         return points;
     }
 
-    public ArrayList<Edge> getEdges() {
+    public List<Edge> getEdges() {
         return edges;
     }
 

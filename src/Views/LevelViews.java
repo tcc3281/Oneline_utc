@@ -30,55 +30,31 @@ public class LevelViews {
         return btnBackLevel;
     }
 
-    public void setBtnBackLevel(JButton btnBackLevel) {
-        this.btnBackLevel = btnBackLevel;
-    }
-
     public JRadioButton getRdbEasy() {
         return rdbEasy;
-    }
-
-    public void setRdbEasy(JRadioButton rdbEasy) {
-        this.rdbEasy = rdbEasy;
     }
 
     public JRadioButton getRdbMedium() {
         return rdbMedium;
     }
 
-    public void setRdbMedium(JRadioButton rdbMedium) {
-        this.rdbMedium = rdbMedium;
-    }
-
     public JRadioButton getRdbHard() {
         return rdbHard;
-    }
-
-    public void setRdbHard(JRadioButton rdbHard) {
-        this.rdbHard = rdbHard;
     }
 
     public JRadioButton getRdbCustom() {
         return rdbCustom;
     }
 
-    public void setRdbCustom(JRadioButton rdbCustom) {
-        this.rdbCustom = rdbCustom;
-    }
-
     public JButton getSaveButton() {
         return saveButton;
-    }
-
-    public void setSaveButton(JButton saveButton) {
-        this.saveButton = saveButton;
     }
 
     public JPanel getJPanelLevel() {
         return JPanelLevel;
     }
 
-    public void setJPanelLevel(JPanel JPanelLevel) {
-        this.JPanelLevel = JPanelLevel;
+    public JComboBox getComboBox1() {
+        return comboBox1;
     }
 }

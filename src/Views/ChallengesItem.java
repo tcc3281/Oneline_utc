@@ -22,23 +22,11 @@ public class ChallengesItem {
         return JPanelItem;
     }
 
-    public void setJPanelItem(JPanel JPanelItem) {
-        this.JPanelItem = JPanelItem;
-    }
-
     public JButton getBtnPlayItem() {
         return btnPlayItem;
     }
 
-    public void setBtnPlayItem(JButton btnPlayItem) {
-        this.btnPlayItem = btnPlayItem;
-    }
-
     public JLabel getTxtNumber() {
         return txtNumber;
-    }
-
-    public void setTxtNumber(JLabel txtNumber) {
-        this.txtNumber = txtNumber;
     }
 }

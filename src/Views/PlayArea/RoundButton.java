@@ -1,4 +1,4 @@
-package Views;
+package Views.PlayArea;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,21 +8,20 @@ public class RoundButton extends JButton {
     public static final Color BLUE = new Color(59, 175, 218);
     public static final Color GREEN = new Color(21, 153, 127);
     public static final Color GRAY = new Color(204, 209, 217);
+    public static final Color RED = new Color(255, 83, 100);
     private Color buttonColor = PURPLE;
+    public static final int DIAMETER = 17;
 
-
-    public RoundButton(String label) {
+    public RoundButton(String label, int x, int y) {
         super(label);
         setContentAreaFilled(false);
     }
 
-    // Thay đổi màu sắc của nút
     public void setButtonColor(Color newColor) {
         buttonColor = newColor;
         repaint();
     }
 
-    // Vẽ nút hình tròn
     @Override
     protected void paintComponent(Graphics g) {
         g.setColor(buttonColor);
@@ -30,14 +29,12 @@ public class RoundButton extends JButton {
         super.paintComponent(g);
     }
 
-    // Vẽ viền cho nút (nếu cần)
     @Override
     protected void paintBorder(Graphics g) {
         g.setColor(buttonColor);
         g.drawOval(0, 0, getSize().width - 1, getSize().height - 1);
     }
 
-    // Định hình kích thước ưa thích cho nút (hình tròn)
     @Override
     public Dimension getPreferredSize() {
         Dimension size = super.getPreferredSize();
@@ -45,7 +42,6 @@ public class RoundButton extends JButton {
         return size;
     }
 
-    // Định hình viền cho nút (nếu cần)
     @Override
     public Insets getInsets() {
         int radius = getSize().height / 2;
