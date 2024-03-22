@@ -1,35 +1,32 @@
 package Views.PlayArea;
 
+import Models.Game.Edge;
+
 import javax.swing.*;
 import java.awt.*;
 
-public class RoundButton extends JButton {
-    private Color buttonColor ;
-    private final int DIAMETER = 17;
+public class RoundLabel extends JLabel {
+    private final int DIAMETER = 20;
 
-    public RoundButton(int x, int y) {
-        super("");
-        setBounds(x,y,DIAMETER,DIAMETER);
-        setContentAreaFilled(false);
-        buttonColor=LinePanel.PURPLE;
-    }
-
-    public void setButtonColor(Color newColor) {
-        buttonColor = newColor;
-        repaint();
+    public RoundLabel(int x, int y) {
+        super();
+        this.setText(String.valueOf(Edge.SECONDVISIT));
+        this.setHorizontalAlignment(SwingConstants.CENTER);
+        this.setVerticalAlignment(SwingConstants.CENTER);
+        setBounds(x, y, DIAMETER, DIAMETER);
     }
 
     @Override
     protected void paintComponent(Graphics g) {
-        g.setColor(buttonColor);
-        g.fillOval(0, 0, getSize().width - 1, getSize().height - 1);
+        g.setColor(LinePanel.WHITE);
+        g.fillOval(0, 0, getWidth(), getHeight());
         super.paintComponent(g);
     }
 
     @Override
     protected void paintBorder(Graphics g) {
-        g.setColor(buttonColor);
-        g.drawOval(0, 0, getSize().width - 1, getSize().height - 1);
+        g.setColor(LinePanel.GRAY);
+        g.drawOval(0, 0, getWidth() , getHeight() );
     }
 
     @Override

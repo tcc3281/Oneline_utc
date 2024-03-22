@@ -4,7 +4,6 @@ import Models.Game.Edge;
 import Models.Game.Graph;
 import Models.Game.Point;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class Hint {

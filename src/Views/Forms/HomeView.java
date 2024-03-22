@@ -1,8 +1,8 @@
-package Views;
+package Views.Forms;
 
 import javax.swing.*;
 
-public class HomeViews {
+public class HomeView {
 
     private JButton btnPlay;
     private JButton btnChallenges;
@@ -10,10 +10,10 @@ public class HomeViews {
     private JButton btnLevel;
     private JPanel JPanelHome;
 
-    public HomeViews() {
+    public HomeView() {
     }
 
-    public HomeViews(JButton btnPlay, JButton btnChallenges, JButton btnExit, JButton btnLevel, JPanel JPanelHome) {
+    public HomeView(JButton btnPlay, JButton btnChallenges, JButton btnExit, JButton btnLevel, JPanel JPanelHome) {
         this.btnPlay = btnPlay;
         this.btnChallenges = btnChallenges;
         this.btnExit = btnExit;

@@ -1,21 +1,21 @@
-package Views;
+package Views.Forms;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class ChallengesViews {
+public class ChallengesView {
     private JPanel JPanelChallenges;
     private JButton btnBackChallenges;
     private JPanel JPItem;
 
 
-    public ChallengesViews(JPanel JPanelChallenges, JButton btnBackChallenges, JPanel JPItem) {
+    public ChallengesView(JPanel JPanelChallenges, JButton btnBackChallenges, JPanel JPItem) {
         this.JPanelChallenges = JPanelChallenges;
         this.btnBackChallenges = btnBackChallenges;
         this.JPItem = JPItem;
     }
 
-    public ChallengesViews() {
+    public ChallengesView() {
     }
 
     public JPanel getJPanelChallenges() {

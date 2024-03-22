@@ -1,4 +1,4 @@
-package Views;
+package Views.Forms;
 
 import javax.swing.*;
 

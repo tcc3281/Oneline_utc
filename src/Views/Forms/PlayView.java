@@ -1,11 +1,11 @@
-package Views;
+package Views.Forms;
 
 import Views.PlayArea.LinePanel;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class PlayViews {
+public class PlayView {
     private JPanel JPanelPlay;
     private JButton btnBackPlay;
     private JButton btnNext;
@@ -20,10 +20,10 @@ public class PlayViews {
     private JPanel jPanelHead;
     private LinePanel mainPlay;
 
-    public PlayViews() {
+    public PlayView() {
     }
 
-    public PlayViews(JPanel JPanelPlay, JButton btnBackPlay, JButton btnNext, JLabel txtTimer, JButton btnReturn, JButton btnHint, JButton btnReset, JLabel first, JLabel second, JLabel three) {
+    public PlayView(JPanel JPanelPlay, JButton btnBackPlay, JButton btnNext, JLabel txtTimer, JButton btnReturn, JButton btnHint, JButton btnReset, JLabel first, JLabel second, JLabel three) {
         this.JPanelPlay = JPanelPlay;
         this.btnBackPlay = btnBackPlay;
         this.btnNext = btnNext;
@@ -89,10 +89,10 @@ public class PlayViews {
     }
 
     public void setBoardGame() {
-        if (mainPlay == null)
+        if (mainPlay == null) {
             mainPlay = new LinePanel(jPanelBoardGame.getWidth(), jPanelBoardGame.getHeight());
+        }
         jPanelBoardGame.setLayout(new GridLayout(1, 1));
-        mainPlay.setSize(new Dimension(jPanelBoardGame.getWidth(), jPanelBoardGame.getHeight()));
         jPanelBoardGame.add(mainPlay);
 
     }

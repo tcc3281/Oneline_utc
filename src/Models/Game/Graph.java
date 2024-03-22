@@ -40,10 +40,11 @@ public class Graph {
         if (this.edges != null) {
             this.edges.clear();
         }
+        File file=null;
         FileReader reader = null;
         BufferedReader bufferedReader = null;
         try {
-            File file = new File(PATH + String.format("%02d", level) + ".txt");
+            file = new File(PATH + String.format("%02d", level) + ".txt");
             reader = new FileReader(file);
             bufferedReader = new BufferedReader(reader);
             int num;

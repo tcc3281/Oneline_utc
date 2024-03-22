@@ -13,7 +13,7 @@ public class CountdownTimer {
 
     public static final int EASY = 180;
     public static final int MEDIUM = 60;
-    public static final int HARD = 15;
+    public static final int HARD = 30;
     private boolean isPause;
 
     public CountdownTimer(int second, PlayController controller) {
@@ -30,6 +30,11 @@ public class CountdownTimer {
 
     public String getTime() {
         return String.format("%02d", this.minute) + ":" + String.format("%02d", this.second);
+    }
+
+    public void setTime(int time) {
+        minute = time / 60;
+        second = time % 60;
     }
 
     protected boolean runTime() {
