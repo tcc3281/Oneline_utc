@@ -18,6 +18,7 @@ public class PlayView {
     private JLabel Three;
     private JPanel jPanelBoardGame;
     private JPanel jPanelHead;
+    private JLabel jLabelTitle;
     private LinePanel mainPlay;
 
     public PlayView() {
@@ -35,6 +36,10 @@ public class PlayView {
         First = first;
         Second = second;
         Three = three;
+    }
+
+    public void setTitle(String title) {
+        this.jLabelTitle.setText(title);
     }
 
     public JPanel getJPanelPlay() {

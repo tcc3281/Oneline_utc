@@ -20,12 +20,12 @@ public class LinePanel extends JPanel implements ActionListener {
     public static final Color GREEN = new Color(21, 153, 127);
     public static final Color GRAY = new Color(204, 209, 217);
     public static final Color RED = new Color(255, 83, 100);
+    public static final Color YELLOW = new Color(242, 171, 34);
     public static final Color WHITE = new Color(255, 255, 255);
     private List<RoundButton> roundButtons;
     private HashMap<Edge, RoundLabel> roundLabels;
     private List<Point> points;
     private PlayController controller;
-    private Color pointColor = PURPLE;
     private Color edgeColor = GRAY;
 
 
@@ -42,14 +42,16 @@ public class LinePanel extends JPanel implements ActionListener {
         return roundLabels.get(key);
     }
 
-    public void setGUI(List<Point> points, List<Edge> edges) {
+    public void setGUI(List<Point> points, List<Edge> edges, Color color) {
         this.points = points;
-
+        this.edgeColor = color;
         if (this.points == null) return;
-        if (this.roundButtons != null) this.roundButtons.clear();
-
+        if (this.roundButtons != null){
+            this.removeAll();
+            this.roundButtons.clear();
+        }
         for (Point p : this.points) {
-            RoundButton r = new RoundButton(p.getX(), p.getY());
+            RoundButton r = new RoundButton(p.getX(), p.getY(), this.edgeColor);
             this.roundButtons.add(r);
             this.add(r);
             r.addActionListener(this);
@@ -176,10 +178,20 @@ public class LinePanel extends JPanel implements ActionListener {
         repaint();
     }
 
+    public void back(Edge edge) {
+        if (this.roundLabels.keySet().contains(edge)) {
+            RoundLabel rl = this.roundLabels.get(edge);
+            rl.setVisible(true);
+            rl.setText(String.valueOf(edge.getLeftVisited()));
+        }
+        if (edge.getMustVisit() - edge.getLeftVisited() == 0) edge.setColor(LinePanel.GRAY);
+        repaint();
+    }
+
     public void connect(Point prev, Point next) {
         for (Edge e : prev.getEdges()) {
             if ((prev == e.getStart() && next == e.getEnd()) || (next == e.getStart() && prev == e.getEnd())) {
-                e.setColor(LinePanel.PURPLE);
+                e.setColor(edgeColor);
             }
         }
         repaint();

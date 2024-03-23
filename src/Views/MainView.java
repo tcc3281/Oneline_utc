@@ -45,6 +45,7 @@ public class MainView extends JFrame implements ActionListener {
         playView.getBtnBackPlay().addActionListener(this);
         playView.getBtnHint().addActionListener(this);
         playView.getBtnReset().addActionListener(this);
+        playView.getBtnReturn().addActionListener(this);
 
         JP.add(homeView.getJPanelHome(), "Home");
         JP.add(levelView.getJPanelLevel(), "Level");
@@ -81,6 +82,8 @@ public class MainView extends JFrame implements ActionListener {
             this.controller.callHint();
         } else if (e.getSource() == playView.getBtnReset()) {
             this.controller.reset();
+        } else if (e.getSource() == playView.getBtnReturn()) {
+            this.controller.back();
         }
 
     }

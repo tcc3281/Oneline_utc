@@ -42,7 +42,7 @@ public class Hint {
             return true;
         }
         for (int i=0;i<p.getEdges().size();i++) {
-            Edge e=graph.getEdges().get(i);
+            Edge e=p.getEdges().get(i);
             if (e.isVisitableFrom(p)) {
                 if (graph.connect(this.graph.getPoints().indexOf(e.ortherPoint(p)))) {
                     steps.add(e.ortherPoint(p));
