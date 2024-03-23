@@ -4,19 +4,20 @@ import javax.swing.*;
 import java.awt.*;
 
 public class RoundButton extends JButton {
-    private Color buttonColor ;
-    private final int DIAMETER = 17;
+    private Color buttonColor;
+    private static final int DIAMETER = 17;
 
     public RoundButton(int x, int y) {
         super("");
-        setBounds(x,y,DIAMETER,DIAMETER);
+        setBounds(x, y, DIAMETER, DIAMETER);
         setContentAreaFilled(false);
-        buttonColor=LinePanel.PURPLE;
+        buttonColor = LinePanel.PURPLE;
+        setBorderPainted(false);
+        setFocusPainted(false);
     }
 
     public void setButtonColor(Color newColor) {
         buttonColor = newColor;
-        repaint();
     }
 
     @Override
@@ -28,7 +29,7 @@ public class RoundButton extends JButton {
 
     @Override
     protected void paintBorder(Graphics g) {
-        g.setColor(buttonColor);
+        g.setColor(LinePanel.GRAY);
         g.drawOval(0, 0, getSize().width - 1, getSize().height - 1);
     }
 

@@ -1,6 +1,7 @@
 package Models.Game;
 
 import Controllers.PlayController;
+import Views.PlayArea.LinePanel;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -84,20 +85,20 @@ public class Graph {
         reset();
     }
 
-    public boolean connect(Point next) {
+    public boolean connect(int next) {
         if (this.cur == null) {
-            setPointStart(next);
+            setPointStart(points.get(next));
             return true;
         }
-        if (next == this.cur) {
+        if (points.get(next) == this.cur) {
             return false;
         }
         for (Edge edge : this.cur.getEdges()) {
-            if (edge.isVisitableTo(next)) {
+            if (edge.isVisitableTo(points.get(next))) {
                 if (!edge.isVisitable()) {
                     return false;
                 }
-                this.cur = next;
+                this.cur = points.get(next);
                 this.visitedPoints.push(this.cur);
                 this.visitedEdges.push(edge);
                 edge.visit();
@@ -167,6 +168,7 @@ public class Graph {
         this.cur = null;
         this.timesLeftBack = TIMESBACK;
         for (Edge e : this.edges) {
+            e.setColor(LinePanel.GRAY);
             e.setNotVisit();
         }
     }

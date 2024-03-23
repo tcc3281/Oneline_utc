@@ -21,6 +21,7 @@ public class PlayView {
     private LinePanel mainPlay;
 
     public PlayView() {
+
     }
 
     public PlayView(JPanel JPanelPlay, JButton btnBackPlay, JButton btnNext, JLabel txtTimer, JButton btnReturn, JButton btnHint, JButton btnReset, JLabel first, JLabel second, JLabel three) {
@@ -34,10 +35,6 @@ public class PlayView {
         First = first;
         Second = second;
         Three = three;
-    }
-
-    public JPanel getjPanelBoardGame() {
-        return jPanelBoardGame;
     }
 
     public JPanel getJPanelPlay() {
@@ -89,11 +86,14 @@ public class PlayView {
     }
 
     public void setBoardGame() {
-        if (mainPlay == null) {
-            mainPlay = new LinePanel(jPanelBoardGame.getWidth(), jPanelBoardGame.getHeight());
-        }
         jPanelBoardGame.setLayout(new GridLayout(1, 1));
         jPanelBoardGame.add(mainPlay);
 
+    }
+
+    public void createMainPlay() {
+        if (mainPlay == null) {
+            mainPlay = new LinePanel(jPanelBoardGame.getWidth(), jPanelBoardGame.getHeight());
+        }
     }
 }
