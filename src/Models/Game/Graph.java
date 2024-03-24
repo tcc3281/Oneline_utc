@@ -157,7 +157,9 @@ public class Graph {
         this.timesLeftBack--;
         return true;
     }
-
+    public boolean isBack(){
+        return timesLeftBack>0;
+    }
     public void reset() {
         if (!visitedPoints.empty()) {
             visitedPoints.clear();

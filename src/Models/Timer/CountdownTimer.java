@@ -43,8 +43,12 @@ public class CountdownTimer {
     public void reset() {
         minute = totalSecond / 60;
         second = totalSecond % 60;
+        startTime();
     }
-
+    public void cancel(){
+        timer.cancel();
+        timer=new Timer();
+    }
     protected boolean runTime() {
         if (isPause) return true;
 
@@ -68,6 +72,7 @@ public class CountdownTimer {
                 controller.setTextTime(getTime());
             } else {
                 timer.cancel();
+                controller.connect(-1);
             }
         }
     }

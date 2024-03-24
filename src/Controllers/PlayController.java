@@ -29,7 +29,6 @@ public class PlayController {
         readData();
         views = new MainView(this);
         models = new Graph(this);
-        timer = new CountdownTimer(curLevel, this);
         hint = new Hint();
         this.playPanel = views.getPlayViews().getMainPlay();
         this.playPanel.setController(this);
@@ -61,6 +60,7 @@ public class PlayController {
         ramdomColor();
         this.views.getPlayViews().setTitle("Play " + String.valueOf(this.curPlay));
         this.models.readData(curPlay);
+        timer = new CountdownTimer(curLevel, this);
         List<Point> p = this.models.getPoints();
         List<Edge> e = this.models.getEdges();
         this.views.getPlayViews().setPlayView();
@@ -156,6 +156,11 @@ public class PlayController {
             return;
         }
         Point cur = models.getCur();
+        if (position == -1) {
+            lose();
+            if (cur != null) this.playPanel.blink(cur.getX(), cur.getY(), false);
+            return;
+        }
         Point next = models.getPoints().get(position);
         if (this.models.connect(position)) {
             this.playPanel.blink(next.getX(), next.getY(), true);
@@ -174,12 +179,25 @@ public class PlayController {
             }
         }
         if (this.models.isFinish()) {
-            this.timer.pauseTime();
+            if (!this.models.isBack()) {
+                this.playPanel.blink(next.getX(), next.getY(), false);
+                lose();
+            }
             if (this.models.isWinner()) {
                 this.playPanel.blink(next.getX(), next.getY(), false);
-                System.out.println("win");
+                winner();
             }
         }
+    }
+
+    public void lose() {
+        this.timer.cancel();
+        System.out.println("Lose");
+    }
+
+    public void winner() {
+        this.timer.cancel();
+        System.out.println("Win");
     }
 
     public void reset() {
@@ -228,5 +246,4 @@ public class PlayController {
         if (curLevel == CountdownTimer.HARD)
             views.getLevelView().getRdbHard().setSelected(true);
     }
-
 }
