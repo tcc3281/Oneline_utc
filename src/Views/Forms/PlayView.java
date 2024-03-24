@@ -1,5 +1,6 @@
 package Views.Forms;
 
+import Models.Game.Graph;
 import Views.PlayArea.LinePanel;
 
 import javax.swing.*;
@@ -15,17 +16,18 @@ public class PlayView {
     private JButton btnReset;
     private JLabel First;
     private JLabel Second;
-    private JLabel Three;
+    private JLabel Third;
     private JPanel jPanelBoardGame;
     private JPanel jPanelHead;
     private JLabel jLabelTitle;
     private LinePanel mainPlay;
+    private static final ImageIcon REDHEART = new ImageIcon(".\\src\\Resources\\Images\\red.png");
+    private static final ImageIcon BLACKHEART = new ImageIcon(".\\src\\Resources\\Images\\zero.png");
 
     public PlayView() {
-
     }
 
-    public PlayView(JPanel JPanelPlay, JButton btnBackPlay, JButton btnNext, JLabel txtTimer, JButton btnReturn, JButton btnHint, JButton btnReset, JLabel first, JLabel second, JLabel three) {
+    public PlayView(JPanel JPanelPlay, JButton btnBackPlay, JButton btnNext, JLabel txtTimer, JButton btnReturn, JButton btnHint, JButton btnReset, JLabel first, JLabel second, JLabel third) {
         this.JPanelPlay = JPanelPlay;
         this.btnBackPlay = btnBackPlay;
         this.btnNext = btnNext;
@@ -35,7 +37,7 @@ public class PlayView {
         this.btnReset = btnReset;
         First = first;
         Second = second;
-        Three = three;
+        Third = third;
     }
 
     public void setTitle(String title) {
@@ -78,8 +80,8 @@ public class PlayView {
         return Second;
     }
 
-    public JLabel getThree() {
-        return Three;
+    public JLabel getThird() {
+        return Third;
     }
 
     public JPanel getjPanelHead() {
@@ -90,15 +92,35 @@ public class PlayView {
         return mainPlay;
     }
 
-    public void setBoardGame() {
+    public void setPlayView() {
         jPanelBoardGame.setLayout(new GridLayout(1, 1));
         jPanelBoardGame.add(mainPlay);
 
+    }
+
+    public void setNumberHeart(int num) {
+        First.setIcon(BLACKHEART);
+        Second.setIcon(BLACKHEART);
+        Third.setIcon(BLACKHEART);
+        if (num > 0) {
+            First.setIcon(REDHEART);
+        }
+        if (num > 1) {
+            Second.setIcon(REDHEART);
+        }
+        if (num > 2) {
+            Third.setIcon(REDHEART);
+        }
     }
 
     public void createMainPlay() {
         if (mainPlay == null) {
             mainPlay = new LinePanel(jPanelBoardGame.getWidth(), jPanelBoardGame.getHeight());
         }
+    }
+
+    public void reset() {
+        setNumberHeart(Graph.BACKLIMIT);
+        this.mainPlay.reset();
     }
 }

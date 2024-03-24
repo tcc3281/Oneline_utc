@@ -5,7 +5,6 @@ import Models.Game.Edge;
 import Models.Game.Graph;
 import Models.Game.Point;
 import Models.Timer.CountdownTimer;
-import Views.Forms.LevelView;
 import Views.MainView;
 import Views.PlayArea.LinePanel;
 
@@ -64,7 +63,7 @@ public class PlayController {
         this.models.readData(curPlay);
         List<Point> p = this.models.getPoints();
         List<Edge> e = this.models.getEdges();
-        this.views.getPlayViews().setBoardGame();
+        this.views.getPlayViews().setPlayView();
         if (playPanel == null) {
             playPanel = this.views.getPlayViews().getMainPlay();
             playPanel.setController(this);
@@ -156,10 +155,12 @@ public class PlayController {
         if (this.models.isWinner()) {
             return;
         }
-        Point cur = this.models.getCur();
+        Point cur = models.getCur();
         Point next = models.getPoints().get(position);
         if (this.models.connect(position)) {
+            this.playPanel.blink(next.getX(), next.getY(), true);
             if (cur != null) {
+                this.playPanel.blink(cur.getX(), cur.getY(), false);
                 this.playPanel.connect(cur, next);
                 Edge tempEdge = cur.getEdge(next);
                 if (tempEdge.getMustVisit() == Edge.SECONDVISIT) {
@@ -175,6 +176,7 @@ public class PlayController {
         if (this.models.isFinish()) {
             this.timer.pauseTime();
             if (this.models.isWinner()) {
+                this.playPanel.blink(next.getX(), next.getY(), false);
                 System.out.println("win");
             }
         }
@@ -183,7 +185,7 @@ public class PlayController {
     public void reset() {
         this.models.reset();
         this.timer.reset();
-        this.playPanel.reset();
+        this.views.getPlayViews().reset();
     }
 
     public void back() {
@@ -196,8 +198,11 @@ public class PlayController {
         }
         if (this.models.back()) {
             Point prev = this.models.getCur();
+            this.playPanel.blink(after.getX(), after.getY(), false);
+            this.views.getPlayViews().setNumberHeart(this.models.getTimesLeftBack());
             if (prev != null) {
                 this.playPanel.back(prev.getEdge(after));
+                this.playPanel.blink(prev.getX(), prev.getY(), true);
             } else {
                 for (Edge e : after.getEdges()) {
                     e.setColor(LinePanel.GRAY);
@@ -206,7 +211,6 @@ public class PlayController {
             }
         } else {
             System.out.println("Can't back");
-            //Viết thông báo không thể back
         }
     }
 
@@ -215,15 +219,14 @@ public class PlayController {
         curLevel = time;
         this.timer.setTime(time);
     }
-    public void setLevel(){
-        if(curLevel == CountdownTimer.EASY)
+
+    public void setLevel() {
+        if (curLevel == CountdownTimer.EASY)
             views.getLevelView().getRdbEasy().setSelected(true);
-        if(curLevel == CountdownTimer.MEDIUM)
+        if (curLevel == CountdownTimer.MEDIUM)
             views.getLevelView().getRdbMedium().setSelected(true);
-        if(curLevel == CountdownTimer.HARD)
+        if (curLevel == CountdownTimer.HARD)
             views.getLevelView().getRdbHard().setSelected(true);
     }
-    public void roundButtonChange(){
 
-    }
 }

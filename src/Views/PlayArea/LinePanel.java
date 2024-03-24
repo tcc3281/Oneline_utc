@@ -46,7 +46,7 @@ public class LinePanel extends JPanel implements ActionListener {
         this.points = points;
         this.edgeColor = color;
         if (this.points == null) return;
-        if (this.roundButtons != null){
+        if (this.roundButtons != null) {
             this.removeAll();
             this.roundButtons.clear();
         }
@@ -169,11 +169,16 @@ public class LinePanel extends JPanel implements ActionListener {
             this.controller.connect(position);
         }
     }
+    public void blick(int x, int y){
 
+    }
     public void reset() {
-        for (RoundLabel rb : roundLabels.values()) {
-            rb.setVisible(true);
-            rb.setText(String.valueOf(Edge.SECONDVISIT));
+        for (RoundLabel rl : roundLabels.values()) {
+            rl.setVisible(true);
+            rl.setText(String.valueOf(Edge.SECONDVISIT));
+        }
+        for (RoundButton rb:roundButtons){
+            rb.blink(false);
         }
         repaint();
     }
@@ -186,6 +191,13 @@ public class LinePanel extends JPanel implements ActionListener {
         }
         if (edge.getMustVisit() - edge.getLeftVisited() == 0) edge.setColor(LinePanel.GRAY);
         repaint();
+    }
+
+    public void blink(int x, int y, boolean blink){
+        int position= roundButtons.indexOf(new RoundButton(x,y));
+        if(position!=-1){
+            roundButtons.get(position).blink(blink);
+        }
     }
 
     public void connect(Point prev, Point next) {

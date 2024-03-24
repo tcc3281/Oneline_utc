@@ -17,7 +17,7 @@ public class Graph {
     private PlayController controller;
     private int timesLeftBack;
     private final String PATH = ".\\src\\Resources\\Levels\\level_";
-    public static final int TIMESBACK = 3;
+    public static final int BACKLIMIT = 3;
 
     public Graph(PlayController controller) {
         this.controller = controller;
@@ -138,7 +138,7 @@ public class Graph {
         if (this.cur == null) {
             return false;
         }
-        if (this.visitedEdges.empty()) {
+        if (this.visitedPoints.empty()) {
             return false;
         }
         if (this.timesLeftBack == 0) {
@@ -166,7 +166,7 @@ public class Graph {
             visitedEdges.clear();
         }
         this.cur = null;
-        this.timesLeftBack = TIMESBACK;
+        this.timesLeftBack = BACKLIMIT;
         for (Edge e : this.edges) {
             e.setColor(LinePanel.GRAY);
             e.setNotVisit();
@@ -187,5 +187,9 @@ public class Graph {
 
     public Stack<Point> getVisitedPoints() {
         return visitedPoints;
+    }
+
+    public int getTimesLeftBack() {
+        return timesLeftBack;
     }
 }
