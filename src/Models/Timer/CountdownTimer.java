@@ -9,6 +9,7 @@ public class CountdownTimer {
     private Timer timer;
     protected int second;
     protected int minute;
+    private int totalSecond;
     private PlayController controller;
 
     public static final int EASY = 180;
@@ -17,9 +18,10 @@ public class CountdownTimer {
     private boolean isPause;
 
     public CountdownTimer(int second, PlayController controller) {
+        this.totalSecond = second + 1;
         this.controller = controller;
-        this.second = second % 60;
-        this.minute = second / 60;
+        this.second = totalSecond % 60;
+        this.minute = totalSecond / 60;
         timer = new Timer();
         isPause = false;
     }
@@ -33,8 +35,14 @@ public class CountdownTimer {
     }
 
     public void setTime(int time) {
-        minute = time / 60;
-        second = time % 60;
+        totalSecond = time + 1;
+        minute = totalSecond / 60;
+        second = totalSecond % 60;
+    }
+
+    public void reset() {
+        minute = totalSecond / 60;
+        second = totalSecond % 60;
     }
 
     protected boolean runTime() {

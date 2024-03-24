@@ -18,18 +18,17 @@ public class Hint {
     public Hint(int level) {
         graph = new Graph();
         steps = new LinkedList<>();
-        graph.readData(1);
     }
 
-    public void setLevel(int level) {
+    public void setChallenge(int level) {
         graph.readData(level);
     }
 
-    public LinkedList<Point> play() {
-        for (Point p : graph.getPoints()) {
-            this.graph.connect(p);
-            this.steps.add(p);
-            if (_try(p)) {
+    public LinkedList<Point> solve() {
+        for (int i=0;i<graph.getPoints().size();i++) {
+            this.graph.connect(i);
+            this.steps.add(graph.getPoints().get(i));
+            if (_try(graph.getPoints().get(i))) {
                 return steps;
             }
             this.graph.reset();
@@ -38,13 +37,14 @@ public class Hint {
         return null;
     }
 
-    public boolean _try(Point p) {
+    private boolean _try(Point p) {
         if (graph.isWinner()) {
             return true;
         }
-        for (Edge e : p.getEdges()) {
+        for (int i=0;i<p.getEdges().size();i++) {
+            Edge e=p.getEdges().get(i);
             if (e.isVisitableFrom(p)) {
-                if (graph.connect(e.ortherPoint(p))) {
+                if (graph.connect(this.graph.getPoints().indexOf(e.ortherPoint(p)))) {
                     steps.add(e.ortherPoint(p));
                     if (_try(e.ortherPoint(p))) {
                         return true;
