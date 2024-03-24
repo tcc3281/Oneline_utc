@@ -38,4 +38,8 @@ public class RoundButton extends JButton {
         int radius = getSize().height / 2;
         return new Insets(radius, radius, radius, radius);
     }
+    public void setRButtonColor(Color c){
+        buttonColor = c;
+        repaint();
+    }
 }

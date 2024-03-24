@@ -5,6 +5,7 @@ import Models.Game.Edge;
 import Models.Game.Graph;
 import Models.Game.Point;
 import Models.Timer.CountdownTimer;
+import Views.Forms.LevelView;
 import Views.MainView;
 import Views.PlayArea.LinePanel;
 
@@ -207,5 +208,22 @@ public class PlayController {
             System.out.println("Can't back");
             //Viết thông báo không thể back
         }
+    }
+
+    public void setTime() {
+        int time = views.getLevelView().Timer();
+        curLevel = time;
+        this.timer.setTime(time);
+    }
+    public void setLevel(){
+        if(curLevel == CountdownTimer.EASY)
+            views.getLevelView().getRdbEasy().setSelected(true);
+        if(curLevel == CountdownTimer.MEDIUM)
+            views.getLevelView().getRdbMedium().setSelected(true);
+        if(curLevel == CountdownTimer.HARD)
+            views.getLevelView().getRdbHard().setSelected(true);
+    }
+    public void roundButtonChange(){
+
     }
 }

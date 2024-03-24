@@ -1,11 +1,29 @@
 package Views.Forms;
 
+import Models.Timer.CountdownTimer;
+
 import javax.swing.*;
 
 public class LevelView {
     private JButton btnBackLevel;
     private JRadioButton rdbEasy;
     private JRadioButton rdbMedium;
+
+    public void setRdbEasy(JRadioButton rdbEasy) {
+        this.rdbEasy = rdbEasy;
+    }
+
+    public void setRdbMedium(JRadioButton rdbMedium) {
+        this.rdbMedium = rdbMedium;
+    }
+
+    public void setRdbHard(JRadioButton rdbHard) {
+        this.rdbHard = rdbHard;
+    }
+
+    public void setRdbCustom(JRadioButton rdbCustom) {
+        this.rdbCustom = rdbCustom;
+    }
 
     private JRadioButton rdbHard;
     private JRadioButton rdbCustom;
@@ -56,5 +74,21 @@ public class LevelView {
 
     public JComboBox getComboBox1() {
         return comboBox1;
+    }
+    public  int Timer(){
+        int time=0;
+        if(getRdbEasy().isSelected())
+        {
+            time = CountdownTimer.EASY;
+        }
+        if(getRdbMedium().isSelected())
+        {
+            time = CountdownTimer.MEDIUM;
+        }
+        if(getRdbHard().isSelected())
+        {
+            time = CountdownTimer.HARD;
+        }
+        return time;
     }
 }

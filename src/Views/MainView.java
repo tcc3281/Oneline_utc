@@ -1,6 +1,7 @@
 package Views;
 
 import Controllers.PlayController;
+import Models.Timer.CountdownTimer;
 import Views.Forms.ChallengesView;
 import Views.Forms.HomeView;
 import Views.Forms.LevelView;
@@ -13,12 +14,21 @@ import java.awt.event.ActionListener;
 
 public class MainView extends JFrame implements ActionListener {
     private HomeView homeView;
+
+
     private LevelView levelView;
     private ChallengesView challengesView;
     private PlayView playView;
     private JPanel JP;
     private CardLayout cardLayout;
     private PlayController controller;
+    public LevelView getLevelView() {
+        return levelView;
+    }
+
+    public void setLevelView(LevelView levelView) {
+        this.levelView = levelView;
+    }
 
     public MainView(PlayController controller) {
         this.controller = controller;
@@ -46,6 +56,7 @@ public class MainView extends JFrame implements ActionListener {
         playView.getBtnHint().addActionListener(this);
         playView.getBtnReset().addActionListener(this);
         playView.getBtnReturn().addActionListener(this);
+        levelView.getSaveButton().addActionListener(this);
 
         JP.add(homeView.getJPanelHome(), "Home");
         JP.add(levelView.getJPanelLevel(), "Level");
@@ -59,6 +70,7 @@ public class MainView extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == homeView.getBtnLevel()) {
             cardLayout.show(JP, "Level");
+            this.controller.setLevel();
         } else if (e.getSource() == homeView.getBtnChallenges()) {
             cardLayout.show(JP, "Challenges");
         } else if (e.getSource() == homeView.getBtnPlay()) {
@@ -84,6 +96,10 @@ public class MainView extends JFrame implements ActionListener {
             this.controller.reset();
         } else if (e.getSource() == playView.getBtnReturn()) {
             this.controller.back();
+        } else if(e.getSource() == levelView.getSaveButton())
+        {
+            this.controller.setTime();
+            cardLayout.show(JP, "Home");
         }
 
     }
