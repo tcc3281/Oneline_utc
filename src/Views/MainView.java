@@ -34,6 +34,7 @@ public class MainView extends JFrame implements ActionListener {
         levelView = new LevelView();
         challengesView = new ChallengesView();
         playView = new PlayView();
+        playView.createMainPlay();
 
         homeView.getBtnLevel().addActionListener(this);
         homeView.getBtnChallenges().addActionListener(this);
@@ -42,6 +43,9 @@ public class MainView extends JFrame implements ActionListener {
         levelView.getBtnBackLevel().addActionListener(this);
         challengesView.getBtnBackChallenges().addActionListener(this);
         playView.getBtnBackPlay().addActionListener(this);
+        playView.getBtnHint().addActionListener(this);
+        playView.getBtnReset().addActionListener(this);
+        playView.getBtnReturn().addActionListener(this);
 
         JP.add(homeView.getJPanelHome(), "Home");
         JP.add(levelView.getJPanelLevel(), "Level");
@@ -49,8 +53,6 @@ public class MainView extends JFrame implements ActionListener {
         JP.add(playView.getJPanelPlay(), "Play");
 
         getContentPane().add(JP, BorderLayout.CENTER);
-
-
     }
 
     @Override
@@ -76,6 +78,12 @@ public class MainView extends JFrame implements ActionListener {
         } else if (e.getSource() == playView.getBtnBackPlay()) {
             cardLayout.show(JP, "Home");
             this.controller.pauseTime();
+        } else if (e.getSource() == playView.getBtnHint()) {
+            this.controller.callHint();
+        } else if (e.getSource() == playView.getBtnReset()) {
+            this.controller.reset();
+        } else if (e.getSource() == playView.getBtnReturn()) {
+            this.controller.back();
         }
 
     }

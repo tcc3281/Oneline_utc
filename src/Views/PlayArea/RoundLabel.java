@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class RoundLabel extends JLabel {
-    private final int DIAMETER = 20;
+    private static final int DIAMETER = 20;
 
     public RoundLabel(int x, int y) {
         super();
@@ -26,7 +26,7 @@ public class RoundLabel extends JLabel {
     @Override
     protected void paintBorder(Graphics g) {
         g.setColor(LinePanel.GRAY);
-        g.drawOval(0, 0, getWidth() , getHeight() );
+        g.drawOval(0, 0, getWidth(), getHeight());
     }
 
     @Override
