@@ -1,13 +1,17 @@
 package Models.Game;
 
+import Views.PlayArea.LinePanel;
+
+import java.awt.*;
 import java.util.Objects;
 
 public class Edge {
     private Point start;
     private Point end;
     private int direction;
-    private int count;// đại diện cho số lần đi 0 < count <=2
+    private int mustVisit;// đại diện cho số lần đi 0 < count <=2
     private int visited;
+    private Color color;
     public static final int STARTTOEND = 1;
     public static final int ENDTOSTART = -1;
     public static final int NODIRECTION = 0;
@@ -15,12 +19,15 @@ public class Edge {
     public static final int VISIT = 1;
     public static final int SECONDVISIT = 2;
 
-    public Edge(Point start, Point end, int direction, int count) {
+    public Edge(Point start, Point end, int direction, int mustVisit) {
         this.start = start;
         this.end = end;
         this.direction = direction;
-        this.count = count;
+        this.mustVisit = mustVisit;
         this.visited = NOTVISIT;
+        this.start.addEdge(this);
+        this.end.addEdge(this);
+        this.color = LinePanel.GRAY;
     }
 
     public Point getStart() {
@@ -31,12 +38,16 @@ public class Edge {
         return end;
     }
 
-    public int getCount() {
-        return count;
+    public int getMustVisit() {
+        return mustVisit;
     }
 
     public int getDirection() {
         return direction;
+    }
+
+    public int getLeftVisited() {
+        return mustVisit -visited;
     }
 
     protected void visit() {
@@ -53,7 +64,7 @@ public class Edge {
                 "start=" + start +
                 ", end=" + end +
                 ", direction=" + direction +
-                ", count=" + count +
+                ", count=" + mustVisit +
                 ", visited=" + visited +
                 '}';
     }
@@ -62,7 +73,7 @@ public class Edge {
         if (this.visited == NOTVISIT) {
             return true;
         } else {
-            return this.visited == VISIT && this.count == SECONDVISIT;
+            return this.visited == VISIT && this.mustVisit == SECONDVISIT;
         }
     }
 
@@ -82,6 +93,14 @@ public class Edge {
         } else {
             return false;
         }
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
     }
 
     public boolean isVisitableTo(Point point) {
@@ -107,11 +126,11 @@ public class Edge {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Edge edge = (Edge) o;
-        return direction == edge.direction && count == edge.count && start.equals(edge.start) && end.equals(edge.end);
+        return direction == edge.direction && mustVisit == edge.mustVisit && start.equals(edge.start) && end.equals(edge.end);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(start, end, direction, count);
+        return Objects.hash(start, end, direction, mustVisit);
     }
 }

@@ -29,7 +29,13 @@ public class Point {
     public void addEdge(Edge edge) {
         this.edges.add(edge);
     }
-
+    public Edge getEdge(Point p){
+        for(Edge e:this.edges){
+            if(e.getStart()==p || e.getEnd()==p)
+                return e;
+        }
+        return null;
+    }
     @Override
     public String toString() {
         return "Point{" +
