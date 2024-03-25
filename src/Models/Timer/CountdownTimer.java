@@ -43,7 +43,6 @@ public class CountdownTimer {
     public void reset() {
         minute = totalSecond / 60;
         second = totalSecond % 60;
-        startTime();
     }
     public void cancel(){
         timer.cancel();

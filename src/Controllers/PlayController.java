@@ -10,8 +10,10 @@ import Views.PlayArea.LinePanel;
 
 import java.awt.*;
 import java.io.*;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Timer;
 
 public class PlayController {
     private MainView views;
@@ -22,6 +24,7 @@ public class PlayController {
     private int curLevel;//thời gian set hiện tại
     private Hint hint;
     private LinePanel playPanel;
+    private LinkedList<Point> hintValue;
     private final String PATH = ".\\src\\Resources\\Datas\\Data.txt";
     public Color playerColor = null;
 
@@ -30,6 +33,8 @@ public class PlayController {
         views = new MainView(this);
         models = new Graph(this);
         hint = new Hint();
+        timer = new CountdownTimer(curLevel, this);
+        hintValue=null;
         this.playPanel = views.getPlayViews().getMainPlay();
         this.playPanel.setController(this);
     }
@@ -60,6 +65,7 @@ public class PlayController {
         ramdomColor();
         this.views.getPlayViews().setTitle("Play " + String.valueOf(this.curPlay));
         this.models.readData(curPlay);
+        if (timer != null) timer.cancel();
         timer = new CountdownTimer(curLevel, this);
         List<Point> p = this.models.getPoints();
         List<Edge> e = this.models.getEdges();
@@ -146,9 +152,20 @@ public class PlayController {
     }
 
     public void callHint() {
-        hint.setChallenge(this.curPlay);
-        LinkedList<Point> s = hint.solve();
-        System.out.println(s);
+        if(this.hintValue==null){
+            this.reset();
+            this.views.getPlayViews().getBtnHint().setEnabled(false);
+            this.playPanel.setHint(true);
+            hint.setChallenge(this.curPlay);
+            this.hintValue = hint.solve();
+        }
+        Point p= this.hintValue.removeFirst();
+        if(hintValue.isEmpty()){
+            this.playPanel.setHint(false);
+            return;
+        }
+        this.playPanel.blink(p.getX(), p.getY(), true);
+
     }
 
     public void connect(int position) {
@@ -163,9 +180,13 @@ public class PlayController {
         }
         Point next = models.getPoints().get(position);
         if (this.models.connect(position)) {
-            this.playPanel.blink(next.getX(), next.getY(), true);
+            if(!this.playPanel.isHint()){
+                this.playPanel.blink(next.getX(), next.getY(), true);
+            }
             if (cur != null) {
-                this.playPanel.blink(cur.getX(), cur.getY(), false);
+                if(!this.playPanel.isHint()){
+                    this.playPanel.blink(cur.getX(), cur.getY(), false);
+                }
                 this.playPanel.connect(cur, next);
                 Edge tempEdge = cur.getEdge(next);
                 if (tempEdge.getMustVisit() == Edge.SECONDVISIT) {
@@ -185,6 +206,7 @@ public class PlayController {
             }
             if (this.models.isWinner()) {
                 this.playPanel.blink(next.getX(), next.getY(), false);
+                this.views.getPlayViews().getBtnHint().setEnabled(false);
                 winner();
             }
         }
@@ -204,6 +226,12 @@ public class PlayController {
         this.models.reset();
         this.timer.reset();
         this.views.getPlayViews().reset();
+        this.playPanel.setHint(false);
+        this.views.getPlayViews().getBtnHint().setEnabled(true);
+        if(this.hintValue!=null){
+            this.hintValue.clear();
+            this.hintValue=null;
+        }
     }
 
     public void back() {
@@ -233,17 +261,23 @@ public class PlayController {
     }
 
     public void setTime() {
-        int time = views.getLevelView().Timer();
+        int time = views.getLevelView().setTime();
         curLevel = time;
-        this.timer.setTime(time);
+        timer.cancel();
     }
 
     public void setLevel() {
         if (curLevel == CountdownTimer.EASY)
             views.getLevelView().getRdbEasy().setSelected(true);
-        if (curLevel == CountdownTimer.MEDIUM)
+        else if (curLevel == CountdownTimer.MEDIUM)
             views.getLevelView().getRdbMedium().setSelected(true);
-        if (curLevel == CountdownTimer.HARD)
+        else if (curLevel == CountdownTimer.HARD)
             views.getLevelView().getRdbHard().setSelected(true);
+        else {
+            Date date = new Date();
+            date.setTime(curLevel * 1000);
+            views.getLevelView().getRdbCustom().setSelected(true);
+            views.getLevelView().getjSPCustom().setValue(date);
+        }
     }
 }

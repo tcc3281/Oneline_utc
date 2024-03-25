@@ -11,6 +11,7 @@ public class RoundButton extends JButton {
     private Timer timer;
     private final int x;
     private final int y;
+    private boolean isBlink;
     private static final int DIAMETER = 17;
 
     private Color mainColor;
@@ -68,8 +69,9 @@ public class RoundButton extends JButton {
         repaint();
     }
 
-    public void blink(boolean accept) {
-        if (accept) {
+    public void blink(boolean isBlink) {
+        this.isBlink=isBlink;
+        if (isBlink) {
             timer.scheduleAtFixedRate(new RemindTask(), 0, 200);
         } else {
             buttonColor = mainColor;
@@ -108,5 +110,13 @@ public class RoundButton extends JButton {
             }
             setRButtonColor(color);
         }
+    }
+
+    public boolean isBlink() {
+        return isBlink;
+    }
+
+    public void setBlink(boolean blink) {
+        isBlink = blink;
     }
 }

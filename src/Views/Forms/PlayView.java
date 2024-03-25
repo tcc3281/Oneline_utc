@@ -21,8 +21,8 @@ public class PlayView {
     private JPanel jPanelHead;
     private JLabel jLabelTitle;
     private LinePanel mainPlay;
-    private static final ImageIcon REDHEART = new ImageIcon(".\\src\\Resources\\Images\\red.png");
-    private static final ImageIcon BLACKHEART = new ImageIcon(".\\src\\Resources\\Images\\zero.png");
+    private static final ImageIcon REDHEART = new ImageIcon(".\\src\\Resources\\Images\\redheart.png");
+    private static final ImageIcon BLACKHEART = new ImageIcon(".\\src\\Resources\\Images\\blackheart.png");
 
     public PlayView() {
     }
