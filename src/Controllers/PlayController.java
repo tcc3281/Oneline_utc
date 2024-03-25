@@ -9,7 +9,6 @@ import Views.Forms.LevelView;
 import Views.MainView;
 import Views.PlayArea.LinePanel;
 
-import javax.swing.*;
 import java.awt.*;
 import java.io.*;
 import java.util.LinkedList;
@@ -176,7 +175,7 @@ public class PlayController {
         if (this.models.isFinish()) {
             this.timer.pauseTime();
             if (this.models.isWinner()) {
-                JOptionPane.showMessageDialog(null, "You are WIN? OK?", "Notification",JOptionPane.INFORMATION_MESSAGE );
+                System.out.println("win");
             }
         }
     }
@@ -227,5 +226,4 @@ public class PlayController {
     public void roundButtonChange(){
 
     }
-
 }
