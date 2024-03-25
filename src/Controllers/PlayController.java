@@ -34,7 +34,7 @@ public class PlayController {
         models = new Graph(this);
         hint = new Hint();
         timer = new CountdownTimer(curLevel, this);
-        hintValue=null;
+        hintValue = null;
         this.playPanel = views.getPlayViews().getMainPlay();
         this.playPanel.setController(this);
     }
@@ -152,15 +152,16 @@ public class PlayController {
     }
 
     public void callHint() {
-        if(this.hintValue==null){
+        if (this.hintValue == null) {
             this.reset();
             this.views.getPlayViews().getBtnHint().setEnabled(false);
+            this.views.getPlayViews().getBtnReturn().setEnabled(false);
             this.playPanel.setHint(true);
             hint.setChallenge(this.curPlay);
             this.hintValue = hint.solve();
         }
-        Point p= this.hintValue.removeFirst();
-        if(hintValue.isEmpty()){
+        Point p = this.hintValue.removeFirst();
+        if (hintValue.isEmpty()) {
             this.playPanel.setHint(false);
             return;
         }
@@ -180,11 +181,11 @@ public class PlayController {
         }
         Point next = models.getPoints().get(position);
         if (this.models.connect(position)) {
-            if(!this.playPanel.isHint()){
+            if (!this.playPanel.isHint()) {
                 this.playPanel.blink(next.getX(), next.getY(), true);
             }
             if (cur != null) {
-                if(!this.playPanel.isHint()){
+                if (!this.playPanel.isHint()) {
                     this.playPanel.blink(cur.getX(), cur.getY(), false);
                 }
                 this.playPanel.connect(cur, next);
@@ -202,10 +203,12 @@ public class PlayController {
         if (this.models.isFinish()) {
             if (!this.models.isBack()) {
                 this.playPanel.blink(next.getX(), next.getY(), false);
+
                 lose();
             }
             if (this.models.isWinner()) {
                 this.playPanel.blink(next.getX(), next.getY(), false);
+                this.views.getPlayViews().getBtnReturn().setEnabled(false);
                 this.views.getPlayViews().getBtnHint().setEnabled(false);
                 winner();
             }
@@ -227,10 +230,12 @@ public class PlayController {
         this.timer.reset();
         this.views.getPlayViews().reset();
         this.playPanel.setHint(false);
+        this.views.getPlayViews().getBtnReturn().setEnabled
+                (true);
         this.views.getPlayViews().getBtnHint().setEnabled(true);
-        if(this.hintValue!=null){
+        if (this.hintValue != null) {
             this.hintValue.clear();
-            this.hintValue=null;
+            this.hintValue = null;
         }
     }
 
