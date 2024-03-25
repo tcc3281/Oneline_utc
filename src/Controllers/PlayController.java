@@ -160,13 +160,12 @@ public class PlayController {
             hint.setChallenge(this.curPlay);
             this.hintValue = hint.solve();
         }
-        Point p = this.hintValue.removeFirst();
-        if (hintValue.isEmpty()) {
+        if(this.hintValue.isEmpty()){
             this.playPanel.setHint(false);
             return;
         }
+        Point p = this.hintValue.removeFirst();
         this.playPanel.blink(p.getX(), p.getY(), true);
-
     }
 
     public void connect(int position) {
@@ -230,8 +229,7 @@ public class PlayController {
         this.timer.reset();
         this.views.getPlayViews().reset();
         this.playPanel.setHint(false);
-        this.views.getPlayViews().getBtnReturn().setEnabled
-                (true);
+        this.views.getPlayViews().getBtnReturn().setEnabled(true);
         this.views.getPlayViews().getBtnHint().setEnabled(true);
         if (this.hintValue != null) {
             this.hintValue.clear();
