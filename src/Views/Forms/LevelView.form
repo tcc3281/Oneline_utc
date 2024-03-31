@@ -113,23 +113,18 @@
               <text value="   Custom"/>
             </properties>
           </component>
-          <component id="bd5b8" class="javax.swing.JComboBox" binding="comboBox1" default-binding="true">
+          <component id="b219c" class="javax.swing.JSpinner" binding="jSPCustom" custom-create="true">
             <constraints>
-              <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="10" use-parent-layout="false"/>
+              <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="0" fill="1" indent="10" use-parent-layout="false">
+                <minimum-size width="80" height="30"/>
+                <preferred-size width="80" height="-1"/>
+              </grid>
             </constraints>
             <properties>
               <background color="-1"/>
-              <editable value="false"/>
               <enabled value="true"/>
               <focusable value="false"/>
-              <model>
-                <item value="02:30"/>
-                <item value="03:00"/>
-                <item value="03:30"/>
-                <item value="04:00"/>
-                <item value="04:30"/>
-                <item value="05:00"/>
-              </model>
+              <font name="Arial" size="16" style="0"/>
             </properties>
           </component>
         </children>

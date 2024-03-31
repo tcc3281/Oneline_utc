@@ -5,14 +5,15 @@ import Models.Game.Edge;
 import Models.Game.Graph;
 import Models.Game.Point;
 import Models.Timer.CountdownTimer;
-import Views.Forms.LevelView;
 import Views.MainView;
 import Views.PlayArea.LinePanel;
 
 import java.awt.*;
 import java.io.*;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Timer;
 
 public class PlayController {
     private MainView views;
@@ -23,6 +24,7 @@ public class PlayController {
     private int curLevel;//thời gian set hiện tại
     private Hint hint;
     private LinePanel playPanel;
+    private LinkedList<Point> hintValue;
     private final String PATH = ".\\src\\Resources\\Datas\\Data.txt";
     public Color playerColor = null;
 
@@ -30,8 +32,9 @@ public class PlayController {
         readData();
         views = new MainView(this);
         models = new Graph(this);
-        timer = new CountdownTimer(curLevel, this);
         hint = new Hint();
+        timer = new CountdownTimer(curLevel, this);
+        hintValue = null;
         this.playPanel = views.getPlayViews().getMainPlay();
         this.playPanel.setController(this);
     }
@@ -62,9 +65,11 @@ public class PlayController {
         ramdomColor();
         this.views.getPlayViews().setTitle("Play " + String.valueOf(this.curPlay));
         this.models.readData(curPlay);
+        if (timer != null) timer.cancel();
+        timer = new CountdownTimer(curLevel, this);
         List<Point> p = this.models.getPoints();
         List<Edge> e = this.models.getEdges();
-        this.views.getPlayViews().setBoardGame();
+        this.views.getPlayViews().setPlayView();
         if (playPanel == null) {
             playPanel = this.views.getPlayViews().getMainPlay();
             playPanel.setController(this);
@@ -147,19 +152,41 @@ public class PlayController {
     }
 
     public void callHint() {
-        hint.setChallenge(this.curPlay);
-        LinkedList<Point> s = hint.solve();
-        System.out.println(s);
+        if (this.hintValue == null) {
+            this.reset();
+            this.views.getPlayViews().getBtnHint().setEnabled(false);
+            this.views.getPlayViews().getBtnReturn().setEnabled(false);
+            this.playPanel.setHint(true);
+            hint.setChallenge(this.curPlay);
+            this.hintValue = hint.solve();
+        }
+        if(this.hintValue.isEmpty()){
+            this.playPanel.setHint(false);
+            return;
+        }
+        Point p = this.hintValue.removeFirst();
+        this.playPanel.blink(p.getX(), p.getY(), true);
     }
 
     public void connect(int position) {
         if (this.models.isWinner()) {
             return;
         }
-        Point cur = this.models.getCur();
+        Point cur = models.getCur();
+        if (position == -1) {
+            lose();
+            if (cur != null) this.playPanel.blink(cur.getX(), cur.getY(), false);
+            return;
+        }
         Point next = models.getPoints().get(position);
         if (this.models.connect(position)) {
+            if (!this.playPanel.isHint()) {
+                this.playPanel.blink(next.getX(), next.getY(), true);
+            }
             if (cur != null) {
+                if (!this.playPanel.isHint()) {
+                    this.playPanel.blink(cur.getX(), cur.getY(), false);
+                }
                 this.playPanel.connect(cur, next);
                 Edge tempEdge = cur.getEdge(next);
                 if (tempEdge.getMustVisit() == Edge.SECONDVISIT) {
@@ -173,17 +200,41 @@ public class PlayController {
             }
         }
         if (this.models.isFinish()) {
-            this.timer.pauseTime();
+            if (!this.models.isBack()) {
+                this.playPanel.blink(next.getX(), next.getY(), false);
+
+                lose();
+            }
             if (this.models.isWinner()) {
-                System.out.println("win");
+                this.playPanel.blink(next.getX(), next.getY(), false);
+                this.views.getPlayViews().getBtnReturn().setEnabled(false);
+                this.views.getPlayViews().getBtnHint().setEnabled(false);
+                winner();
             }
         }
+    }
+
+    public void lose() {
+        this.timer.cancel();
+        System.out.println("Lose");
+    }
+
+    public void winner() {
+        this.timer.cancel();
+        System.out.println("Win");
     }
 
     public void reset() {
         this.models.reset();
         this.timer.reset();
-        this.playPanel.reset();
+        this.views.getPlayViews().reset();
+        this.playPanel.setHint(false);
+        this.views.getPlayViews().getBtnReturn().setEnabled(true);
+        this.views.getPlayViews().getBtnHint().setEnabled(true);
+        if (this.hintValue != null) {
+            this.hintValue.clear();
+            this.hintValue = null;
+        }
     }
 
     public void back() {
@@ -196,8 +247,11 @@ public class PlayController {
         }
         if (this.models.back()) {
             Point prev = this.models.getCur();
+            this.playPanel.blink(after.getX(), after.getY(), false);
+            this.views.getPlayViews().setNumberHeart(this.models.getTimesLeftBack());
             if (prev != null) {
                 this.playPanel.back(prev.getEdge(after));
+                this.playPanel.blink(prev.getX(), prev.getY(), true);
             } else {
                 for (Edge e : after.getEdges()) {
                     e.setColor(LinePanel.GRAY);
@@ -206,24 +260,27 @@ public class PlayController {
             }
         } else {
             System.out.println("Can't back");
-            //Viết thông báo không thể back
         }
     }
 
     public void setTime() {
-        int time = views.getLevelView().Timer();
+        int time = views.getLevelView().setTime();
         curLevel = time;
-        this.timer.setTime(time);
+        timer.cancel();
     }
-    public void setLevel(){
-        if(curLevel == CountdownTimer.EASY)
-            views.getLevelView().getRdbEasy().setSelected(true);
-        if(curLevel == CountdownTimer.MEDIUM)
-            views.getLevelView().getRdbMedium().setSelected(true);
-        if(curLevel == CountdownTimer.HARD)
-            views.getLevelView().getRdbHard().setSelected(true);
-    }
-    public void roundButtonChange(){
 
+    public void setLevel() {
+        if (curLevel == CountdownTimer.EASY)
+            views.getLevelView().getRdbEasy().setSelected(true);
+        else if (curLevel == CountdownTimer.MEDIUM)
+            views.getLevelView().getRdbMedium().setSelected(true);
+        else if (curLevel == CountdownTimer.HARD)
+            views.getLevelView().getRdbHard().setSelected(true);
+        else {
+            Date date = new Date();
+            date.setTime(curLevel * 1000);
+            views.getLevelView().getRdbCustom().setSelected(true);
+            views.getLevelView().getjSPCustom().setValue(date);
+        }
     }
 }

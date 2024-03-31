@@ -11,11 +11,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class MainView extends JFrame implements ActionListener {
     private HomeView homeView;
-
-
     private LevelView levelView;
     private ChallengesView challengesView;
     private PlayView playView;
@@ -64,6 +64,13 @@ public class MainView extends JFrame implements ActionListener {
         JP.add(playView.getJPanelPlay(), "Play");
 
         getContentPane().add(JP, BorderLayout.CENTER);
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                showDialogClose();
+                super.windowClosing(e);
+            }
+        });
     }
 
     @Override
@@ -78,11 +85,7 @@ public class MainView extends JFrame implements ActionListener {
             cardLayout.show(JP, "Play");
             this.controller.runTime();
         } else if (e.getSource() == homeView.getBtnExit()) {
-            int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit the application?", "Exit Confirmation", JOptionPane.YES_NO_OPTION);
-            if (option == JOptionPane.YES_OPTION) {
-                this.controller.saveData();
-                System.exit(0);
-            }
+            showDialogClose();
         } else if (e.getSource() == levelView.getBtnBackLevel()) {
             cardLayout.show(JP, "Home");
         } else if (e.getSource() == challengesView.getBtnBackChallenges()) {
@@ -103,7 +106,13 @@ public class MainView extends JFrame implements ActionListener {
         }
 
     }
-
+    private void showDialogClose(){
+        int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit the application?", "Exit Confirmation", JOptionPane.YES_NO_OPTION);
+        if (option == JOptionPane.YES_OPTION) {
+            this.controller.saveData();
+            System.exit(0);
+        }
+    }
     public PlayView getPlayViews() {
         return playView;
     }
