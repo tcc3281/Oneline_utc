@@ -8,6 +8,7 @@ import Models.Timer.CountdownTimer;
 import Views.MainView;
 import Views.PlayArea.LinePanel;
 
+import javax.swing.*;
 import java.awt.*;
 import java.io.*;
 import java.util.Date;
@@ -221,7 +222,7 @@ public class PlayController {
 
     public void winner() {
         this.timer.cancel();
-        System.out.println("Win");
+        JOptionPane.showMessageDialog(null, "You are WIN? OK?", "Notification",JOptionPane.INFORMATION_MESSAGE );
     }
 
     public void reset() {
