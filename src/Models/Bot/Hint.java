@@ -49,7 +49,7 @@ public class Hint {
                     if (_try(e.ortherPoint(p))) {
                         return true;
                     }
-                    if (graph.back()) {
+                    if (graph.back(true)) {
                         steps.removeLast();
                     }
                 }

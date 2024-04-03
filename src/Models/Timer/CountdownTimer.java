@@ -41,6 +41,8 @@ public class CountdownTimer {
     }
 
     public void reset() {
+        this.cancel();
+        this.startTime();
         minute = totalSecond / 60;
         second = totalSecond % 60;
     }

@@ -59,7 +59,7 @@ public class MainView extends JFrame implements ActionListener {
 
         JP.add(homeView.getJPanelHome(), "Home");
         JP.add(levelView.getJPanelLevel(), "Level");
-        JP.add(challengesView.getJPanelChallenges(this.controller.getCurChallenge()), "Challenges");
+        JP.add(challengesView.getJPanelChallenges(this.controller.getTotalChallenge()), "Challenges");
         JP.add(playView.getJPanelPlay(), "Play");
 
         challengesView.addListener(this);
@@ -81,7 +81,6 @@ public class MainView extends JFrame implements ActionListener {
             this.controller.setLevel();
         } else if (e.getSource() == homeView.getBtnChallenges()) {
             cardLayout.show(JP, "Challenges");
-
         } else if (e.getSource() == homeView.getBtnPlay()) {
             this.controller.setChallenge();
             cardLayout.show(JP, "Play");
@@ -110,6 +109,10 @@ public class MainView extends JFrame implements ActionListener {
             this.controller.nextChallenges();
         }else {
             int position = challengesView.getLstItem().indexOf((JButton) e.getSource()) + 1;
+            if(position>this.controller.getCurChallenge()){
+                JOptionPane.showMessageDialog(null,"You can't choose this challenge!","Notification",JOptionPane.INFORMATION_MESSAGE);
+                return;
+            }
             this.controller.setCurPlay(position);
             this.controller.setChallenge();
             cardLayout.show(JP, "Play");

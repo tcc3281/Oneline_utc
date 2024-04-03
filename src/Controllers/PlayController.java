@@ -24,11 +24,12 @@ public class PlayController {
     private CountdownTimer timer;
     private int curPlay;//challenge đang chơi hiện tại
     private int curChallenge;//số challenge mở được - phải lần lượt theo thứ tụ
+    private int totalChallenge;
     private int curLevel;//thời gian set hiện tại
     private Hint hint;
     private LinePanel playPanel;
     private LinkedList<Point> hintValue;
-    private final String PATH = ".\\src\\Resources\\Datas\\Data.txt";
+    private final String PATH = ".\\src\\Resources\\Datas\\data.txt";
     public Color playerColor = null;
 
     public PlayController() {
@@ -41,10 +42,9 @@ public class PlayController {
         this.playPanel = views.getPlayViews().getMainPlay();
         this.playPanel.setController(this);
     }
-    public int getCurChallenge() {
-        return curChallenge;
+    public int getTotalChallenge(){
+        return totalChallenge;
     }
-
     public void ramdomColor() {
         int color = (int) (Math.random() * 4);
         switch (color) {
@@ -98,9 +98,11 @@ public class PlayController {
             bufferedReader = new BufferedReader(reader);
             int currentChallenge = Integer.parseInt(bufferedReader.readLine());
             int challenge = Integer.parseInt(bufferedReader.readLine());
+            int totalChallenge = Integer.parseInt(bufferedReader.readLine());
             int time = Integer.parseInt(bufferedReader.readLine());
             this.curPlay = currentChallenge;
             this.curChallenge = challenge;
+            this.totalChallenge = totalChallenge;
             this.curLevel = time;
         } catch (FileNotFoundException e) {
             System.out.println(e);
@@ -130,6 +132,7 @@ public class PlayController {
 
             bufferedWriter.write(String.valueOf(this.curPlay) + "\n");
             bufferedWriter.write(String.valueOf(this.curChallenge) + "\n");
+            bufferedWriter.write(String.valueOf(this.totalChallenge) + "\n");
             bufferedWriter.write(String.valueOf(this.curLevel) + "\n");
         } catch (Exception e) {
             System.out.println(e);
@@ -223,13 +226,21 @@ public class PlayController {
     }
 
     public void lose() {
-        this.timer.cancel();
-        System.out.println("Lose");
+        timer.cancel();
+        int option = JOptionPane.showConfirmDialog(null, "You are lose!\nDo you want to play again?", "Notification", JOptionPane.YES_NO_OPTION);
+        if (option == JOptionPane.YES_OPTION) {
+            reset();
+        }
+
     }
 
     public void winner() {
-        this.timer.cancel();
-        JOptionPane.showMessageDialog(null, "You are WIN? OK?", "Notification",JOptionPane.INFORMATION_MESSAGE );
+        curChallenge++;
+        timer.cancel();
+        int option = JOptionPane.showConfirmDialog(null, "You are win!\nDo you want to go to next challenge?", "Notification", JOptionPane.YES_NO_OPTION);
+        if (option == JOptionPane.YES_OPTION) {
+            nextChallenges();
+        }
     }
 
     public void reset() {
@@ -253,7 +264,7 @@ public class PlayController {
         if (after == null) {
             return;
         }
-        if (this.models.back()) {
+        if (this.models.back(false)) {
             Point prev = this.models.getCur();
             this.playPanel.blink(after.getX(), after.getY(), false);
             this.views.getPlayViews().setNumberHeart(this.models.getTimesLeftBack());
@@ -305,5 +316,9 @@ public class PlayController {
 
     public void setCurPlay(int curPlay) {
         this.curPlay = curPlay;
+    }
+
+    public int getCurChallenge() {
+        return curChallenge;
     }
 }

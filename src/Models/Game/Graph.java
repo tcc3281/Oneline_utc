@@ -134,14 +134,14 @@ public class Graph {
         return true;
     }
 
-    public boolean back() {
+    public boolean back(boolean isHint) {
         if (this.cur == null) {
             return false;
         }
         if (this.visitedPoints.empty()) {
             return false;
         }
-        if (this.timesLeftBack == 0) {
+        if (!isHint && this.timesLeftBack == 0) {
             return false;
         }
         if (!visitedEdges.empty()) {
@@ -154,7 +154,9 @@ public class Graph {
             visitedPoints.pop();
             this.cur = visitedPoints.peek();
         }
-        this.timesLeftBack--;
+        if(!isHint) {
+            this.timesLeftBack--;
+        }
         return true;
     }
     public boolean isBack(){
