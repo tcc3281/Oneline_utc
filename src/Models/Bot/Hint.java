@@ -4,20 +4,18 @@ import Models.Game.Edge;
 import Models.Game.Graph;
 import Models.Game.Point;
 
+import java.util.Collection;
 import java.util.LinkedList;
 
 public class Hint {
     private Graph graph;
-    LinkedList<Point> steps;
 
     public Hint() {
         graph = new Graph();
-        steps = new LinkedList<>();
     }
 
     public Hint(int level) {
         graph = new Graph();
-        steps = new LinkedList<>();
     }
 
     public void setChallenge(int level) {
@@ -25,33 +23,51 @@ public class Hint {
     }
 
     public LinkedList<Point> solve() {
-        for (int i=0;i<graph.getPoints().size();i++) {
-            this.graph.connect(i);
-            this.steps.add(graph.getPoints().get(i));
-            if (_try(graph.getPoints().get(i))) {
-                return steps;
+        LinkedList<Point> set_point=new LinkedList<>(graph.getPoints());
+        for (int i=0;i<set_point.size();i++){
+            int check=0;
+            for(Edge edge:set_point.get(i).getEdges()){
+                check+=edge.getMustVisit();
+            }
+            if(check%2==1){
+                Point p=set_point.get(i);
+                this.graph.connect(this.graph.getPoints().indexOf(p));
+                if(_try(p)){
+                    return new LinkedList<>(graph.getVisitedPoints());
+                }
+                this.graph.reset();
+                set_point.remove(i);
+                i=-1;
+            }
+        }
+
+        for (int i = 0; i < set_point.size(); i++) {
+            Point p=set_point.get(i);
+            this.graph.connect(this.graph.getPoints().indexOf(p));
+            if (_try(p)) {
+                return new LinkedList<>(graph.getVisitedPoints());
             }
             this.graph.reset();
-            this.steps.clear();
         }
         return null;
     }
 
     private boolean _try(Point p) {
-        if (graph.isWinner()) {
-            return true;
+        if (graph.isFinish()){
+            if(graph.isWinner()){
+                return true;
+            }else {
+                return false;
+            }
         }
-        for (int i=0;i<p.getEdges().size();i++) {
+        for(int i=0;i<p.getEdges().size();i++){
             Edge e=p.getEdges().get(i);
-            if (e.isVisitableFrom(p)) {
-                if (graph.connect(this.graph.getPoints().indexOf(e.ortherPoint(p)))) {
-                    steps.add(e.ortherPoint(p));
-                    if (_try(e.ortherPoint(p))) {
-                        return true;
-                    }
-                    if (graph.back(true)) {
-                        steps.removeLast();
-                    }
+            Point or_p=e.ortherPoint(p);
+            if(graph.connect(this.graph.getPoints().indexOf(or_p))){
+                if(_try(or_p)){
+                    return true;
+                }else {
+                    this.graph.back(true);
                 }
             }
         }

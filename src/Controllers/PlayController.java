@@ -235,7 +235,9 @@ public class PlayController {
     }
 
     public void winner() {
-        curChallenge++;
+        if(curChallenge<totalChallenge){
+            curChallenge++;
+        }
         timer.cancel();
         int option = JOptionPane.showConfirmDialog(null, "You are win!\nDo you want to go to next challenge?", "Notification", JOptionPane.YES_NO_OPTION);
         if (option == JOptionPane.YES_OPTION) {
@@ -264,7 +266,7 @@ public class PlayController {
         if (after == null) {
             return;
         }
-        if (this.models.back(false)) {
+        if (this.models.back(true)) {
             Point prev = this.models.getCur();
             this.playPanel.blink(after.getX(), after.getY(), false);
             this.views.getPlayViews().setNumberHeart(this.models.getTimesLeftBack());
@@ -303,15 +305,16 @@ public class PlayController {
         }
     }
     public void nextChallenges(){
-        if(curPlay >= curChallenge)
+        if(curPlay >= curChallenge){
             return;
-        else
-        {
-            curPlay++;
-            setChallenge();
-            this.timer.startTime();
-            reset();
         }
+        if(curPlay == totalChallenge){
+            curPlay=0;
+        }
+        curPlay++;
+        setChallenge();
+        this.timer.startTime();
+        reset();
     }
 
     public void setCurPlay(int curPlay) {

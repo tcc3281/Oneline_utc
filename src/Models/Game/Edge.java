@@ -25,8 +25,6 @@ public class Edge {
         this.direction = direction;
         this.mustVisit = mustVisit;
         this.visited = NOTVISIT;
-        this.start.addEdge(this);
-        this.end.addEdge(this);
         this.color = LinePanel.GRAY;
     }
 
