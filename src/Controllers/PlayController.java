@@ -17,8 +17,6 @@ import java.util.List;
 import java.util.Timer;
 
 public class PlayController {
-
-
     private MainView views;
     private Graph models;
     private CountdownTimer timer;
@@ -42,9 +40,11 @@ public class PlayController {
         this.playPanel = views.getPlayViews().getMainPlay();
         this.playPanel.setController(this);
     }
-    public int getTotalChallenge(){
+
+    public int getTotalChallenge() {
         return totalChallenge;
     }
+
     public void ramdomColor() {
         int color = (int) (Math.random() * 4);
         switch (color) {
@@ -83,6 +83,7 @@ public class PlayController {
             playPanel.setController(this);
         }
         this.playPanel.setGUI(p, e, playerColor);
+        reset();
     }
 
     public void setTextTime(String time) {
@@ -165,13 +166,12 @@ public class PlayController {
     public void callHint() {
         if (this.hintValue == null) {
             this.reset();
-            this.views.getPlayViews().getBtnHint().setEnabled(false);
-            this.views.getPlayViews().getBtnReturn().setEnabled(false);
+            this.setEnableBtn(false);
             this.playPanel.setHint(true);
             hint.setChallenge(this.curPlay);
             this.hintValue = hint.solve();
         }
-        if(this.hintValue.isEmpty()){
+        if (this.hintValue.isEmpty()) {
             this.playPanel.setHint(false);
             return;
         }
@@ -218,8 +218,7 @@ public class PlayController {
             }
             if (this.models.isWinner()) {
                 this.playPanel.blink(next.getX(), next.getY(), false);
-                this.views.getPlayViews().getBtnReturn().setEnabled(false);
-                this.views.getPlayViews().getBtnHint().setEnabled(false);
+                this.setEnableBtn(false);
                 winner();
             }
         }
@@ -235,7 +234,7 @@ public class PlayController {
     }
 
     public void winner() {
-        if(curChallenge<totalChallenge){
+        if (curChallenge < totalChallenge) {
             curChallenge++;
         }
         timer.cancel();
@@ -249,15 +248,17 @@ public class PlayController {
         this.models.reset();
         this.timer.reset();
         this.views.getPlayViews().reset();
+        setEnableBtn(true);
         this.playPanel.setHint(false);
-        this.views.getPlayViews().getBtnReturn().setEnabled(true);
-        this.views.getPlayViews().getBtnHint().setEnabled(true);
         if (this.hintValue != null) {
             this.hintValue.clear();
             this.hintValue = null;
         }
     }
-
+    public void setEnableBtn(boolean enableBtn){
+        this.views.getPlayViews().getBtnReturn().setEnabled(enableBtn);
+        this.views.getPlayViews().getBtnHint().setEnabled(enableBtn);
+    }
     public void back() {
         if (this.models.isWinner()) {
             return;
@@ -304,12 +305,13 @@ public class PlayController {
             views.getLevelView().getjSPCustom().setValue(date);
         }
     }
-    public void nextChallenges(){
-        if(curPlay >= curChallenge){
+
+    public void nextChallenges() {
+        if (curPlay >= curChallenge) {
             return;
         }
-        if(curPlay == totalChallenge){
-            curPlay=0;
+        if (curPlay == totalChallenge) {
+            curPlay = 0;
         }
         curPlay++;
         setChallenge();
