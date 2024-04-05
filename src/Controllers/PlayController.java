@@ -267,7 +267,7 @@ public class PlayController {
         if (after == null) {
             return;
         }
-        if (this.models.back(true)) {
+        if (this.models.back(false)) {
             Point prev = this.models.getCur();
             this.playPanel.blink(after.getX(), after.getY(), false);
             this.views.getPlayViews().setNumberHeart(this.models.getTimesLeftBack());
@@ -281,7 +281,7 @@ public class PlayController {
                 this.playPanel.reset();
             }
         } else {
-            System.out.println("Can't back");
+            JOptionPane.showMessageDialog(null,"You only back 3 times","Notification",JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
