@@ -180,6 +180,10 @@ public class PlayController {
         this.playPanel.blink(p.getX(), p.getY(), true);
     }
 
+    public boolean isConnectability() {
+        return connectability;
+    }
+
     public void connect(int position) {
         if (this.models.isWinner()) {
             return;
@@ -231,6 +235,7 @@ public class PlayController {
         timer.cancel();
         this.connectability=false;
         int option = JOptionPane.showConfirmDialog(null, "You are lose!\nDo you want to play again?", "Notification", JOptionPane.YES_NO_OPTION);
+        setEnableBtn(false);
         if (option == JOptionPane.YES_OPTION) {
             reset();
         }

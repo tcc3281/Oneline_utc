@@ -122,7 +122,7 @@ public class MainView extends JFrame implements ActionListener {
 
     }
     private boolean showDialogClose(){
-        int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit the application?", "Exit Confirmation", JOptionPane.YES_NO_OPTION);
+        int option = JOptionPane.showConfirmDialog(null, "Want to save your changes?", "Confirmation", JOptionPane.YES_NO_OPTION);
         if (option == JOptionPane.YES_OPTION) {
             this.controller.saveData();
             return true;

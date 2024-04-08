@@ -170,6 +170,8 @@ public class LinePanel extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        if(!this.controller.isConnectability())
+            return;
         if(!isHint){
             RoundButton r = (RoundButton) e.getSource();
             int x = r.getX();
