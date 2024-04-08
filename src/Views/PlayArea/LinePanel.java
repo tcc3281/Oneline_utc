@@ -170,9 +170,10 @@ public class LinePanel extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(!this.controller.isConnectability())
+        if (!this.controller.isConnectability()) {
             return;
-        if(!isHint){
+        }
+        if (!isHint) {
             RoundButton r = (RoundButton) e.getSource();
             int x = r.getX();
             int y = r.getY();
@@ -181,9 +182,9 @@ public class LinePanel extends JPanel implements ActionListener {
             if (position != -1) {
                 this.controller.connect(position);
             }
-        }else {
+        } else {
             RoundButton r = (RoundButton) e.getSource();
-            if(!r.isBlink()){
+            if (!r.isBlink()) {
                 return;
             }
             int x = r.getX();

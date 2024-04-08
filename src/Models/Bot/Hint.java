@@ -4,12 +4,17 @@ import Models.Game.Edge;
 import Models.Game.Graph;
 import Models.Game.Point;
 
+import java.util.Collection;
 import java.util.LinkedList;
 
 public class Hint {
-    private final Graph graph;
+    private Graph graph;
 
     public Hint() {
+        graph = new Graph();
+    }
+
+    public Hint(int level) {
         graph = new Graph();
     }
 
@@ -36,13 +41,15 @@ public class Hint {
             }
         }
 
-        for (Point p : set_point) {
+        for (int i = 0; i < set_point.size(); i++) {
+            Point p = set_point.get(i);
             this.graph.connect(this.graph.getPoints().indexOf(p));
             if (_try(p)) {
                 return new LinkedList<>(graph.getVisitedPoints());
             }
             this.graph.reset();
         }
+
         return null;
     }
 

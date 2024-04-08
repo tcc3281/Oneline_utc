@@ -45,6 +45,8 @@ public class CountdownTimer {
         this.startTime();
         minute = totalSecond / 60;
         second = totalSecond % 60;
+        controller.setTextTime(getTime());
+
     }
     public void cancel(){
         timer.cancel();

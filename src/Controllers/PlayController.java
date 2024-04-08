@@ -28,8 +28,8 @@ public class PlayController {
     private LinePanel playPanel;
     private LinkedList<Point> hintValue;
     private final String PATH = ".\\src\\Resources\\Datas\\data.txt";
-    private boolean connectability=true;
     public Color playerColor = null;
+    private boolean connectability = true;
 
     public PlayController() {
         readData();
@@ -37,6 +37,7 @@ public class PlayController {
         models = new Graph(this);
         hint = new Hint();
         timer = new CountdownTimer(curLevel, this);
+        timer.startTime();
         hintValue = null;
         this.playPanel = views.getPlayViews().getMainPlay();
         this.playPanel.setController(this);
@@ -72,10 +73,7 @@ public class PlayController {
         ramdomColor();
         this.views.getPlayViews().setTitle("Play " + String.valueOf(this.curPlay));
         this.models.readData(curPlay);
-
-        if (timer != null) timer.cancel();
-        timer = new CountdownTimer(curLevel, this);
-
+        timer.setTime(curLevel);
         List<Point> p = this.models.getPoints();
         List<Edge> e = this.models.getEdges();
         this.views.getPlayViews().setPlayView();
@@ -84,7 +82,7 @@ public class PlayController {
             playPanel.setController(this);
         }
         this.playPanel.setGUI(p, e, playerColor);
-        reset();
+        reset(true);
     }
 
     public void setTextTime(String time) {
@@ -153,11 +151,11 @@ public class PlayController {
     }
 
     public void runTime() {
-        if (this.timer.isPause()) {
-            this.timer.continueTime();
-        } else {
-            this.timer.startTime();
-        }
+//        if (this.timer.isPause()) {
+//            this.timer.continueTime();
+//        } else {
+//            this.timer.pauseTime();
+//        }
     }
 
     public void pauseTime() {
@@ -166,8 +164,8 @@ public class PlayController {
 
     public void callHint() {
         if (this.hintValue == null) {
-            this.reset();
-            this.setEnableBtn(false);
+            this.reset(false);
+            setEnableBtn(false);
             this.playPanel.setHint(true);
             hint.setChallenge(this.curPlay);
             this.hintValue = hint.solve();
@@ -180,15 +178,8 @@ public class PlayController {
         this.playPanel.blink(p.getX(), p.getY(), true);
     }
 
-    public boolean isConnectability() {
-        return connectability;
-    }
-
     public void connect(int position) {
         if (this.models.isWinner()) {
-            return;
-        }
-        if(!this.connectability){
             return;
         }
         Point cur = models.getCur();
@@ -221,11 +212,12 @@ public class PlayController {
         if (this.models.isFinish()) {
             if (!this.models.isBack()) {
                 this.playPanel.blink(next.getX(), next.getY(), false);
+
                 lose();
             }
             if (this.models.isWinner()) {
                 this.playPanel.blink(next.getX(), next.getY(), false);
-                this.setEnableBtn(false);
+                setEnableBtn(false);
                 winner();
             }
         }
@@ -233,43 +225,43 @@ public class PlayController {
 
     public void lose() {
         timer.cancel();
-        this.connectability=false;
         int option = JOptionPane.showConfirmDialog(null, "You are lose!\nDo you want to play again?", "Notification", JOptionPane.YES_NO_OPTION);
-        setEnableBtn(false);
         if (option == JOptionPane.YES_OPTION) {
-            reset();
+            reset(true);
         }
-
+        this.connectability = false;
     }
 
     public void winner() {
         if (curChallenge < totalChallenge) {
             curChallenge++;
         }
-        this.connectability=false;
         timer.cancel();
+        this.connectability = false;
         int option = JOptionPane.showConfirmDialog(null, "You are win!\nDo you want to go to next challenge?", "Notification", JOptionPane.YES_NO_OPTION);
         if (option == JOptionPane.YES_OPTION) {
             nextChallenges();
         }
     }
 
-    public void reset() {
+    public void reset(boolean isTime) {
         this.models.reset();
-        this.timer.reset();
-        this.connectability=true;
+        if(isTime) this.timer.reset();
         this.views.getPlayViews().reset();
-        setEnableBtn(true);
         this.playPanel.setHint(false);
+        this.connectability = true;
+        setEnableBtn(true);
         if (this.hintValue != null) {
             this.hintValue.clear();
             this.hintValue = null;
         }
     }
-    public void setEnableBtn(boolean enableBtn){
+
+    public void setEnableBtn(boolean enableBtn) {
         this.views.getPlayViews().getBtnReturn().setEnabled(enableBtn);
         this.views.getPlayViews().getBtnHint().setEnabled(enableBtn);
     }
+
     public void back() {
         if (this.models.isWinner()) {
             return;
@@ -292,7 +284,7 @@ public class PlayController {
                 this.playPanel.reset();
             }
         } else {
-            JOptionPane.showMessageDialog(null,"You only back 3 times","Notification",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "You only back 3 times", "Notification", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
@@ -327,7 +319,7 @@ public class PlayController {
         curPlay++;
         setChallenge();
         this.timer.startTime();
-        reset();
+        reset(true);
     }
 
     public void setCurPlay(int curPlay) {
@@ -336,5 +328,9 @@ public class PlayController {
 
     public int getCurChallenge() {
         return curChallenge;
+    }
+
+    public boolean isConnectability() {
+        return connectability;
     }
 }
