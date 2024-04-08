@@ -9,7 +9,7 @@ public class Edge {
     private Point start;
     private Point end;
     private int direction;
-    private int mustVisit;// đại diện cho số lần đi 0 < count <=2
+    private int mustVisit;// đại diện cho số lần đi 0 < mustVisit <=2
     private int visited;
     private Color color;
     public static final int STARTTOEND = 1;
