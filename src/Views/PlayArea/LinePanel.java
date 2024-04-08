@@ -32,7 +32,7 @@ public class LinePanel extends JPanel implements ActionListener {
 
     public LinePanel(int w, int h) {
         super();
-        isHint = false;
+        isHint=false;
         this.roundButtons = new ArrayList<>();
         this.roundLabels = new HashMap<>();
         this.setBackground(LinePanel.WHITE);
