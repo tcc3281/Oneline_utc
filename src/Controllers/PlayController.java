@@ -28,6 +28,7 @@ public class PlayController {
     private LinePanel playPanel;
     private LinkedList<Point> hintValue;
     private final String PATH = ".\\src\\Resources\\Datas\\data.txt";
+    private boolean connectability=true;
     public Color playerColor = null;
 
     public PlayController() {
@@ -183,6 +184,9 @@ public class PlayController {
         if (this.models.isWinner()) {
             return;
         }
+        if(!this.connectability){
+            return;
+        }
         Point cur = models.getCur();
         if (position == -1) {
             lose();
@@ -213,7 +217,6 @@ public class PlayController {
         if (this.models.isFinish()) {
             if (!this.models.isBack()) {
                 this.playPanel.blink(next.getX(), next.getY(), false);
-
                 lose();
             }
             if (this.models.isWinner()) {
@@ -226,6 +229,7 @@ public class PlayController {
 
     public void lose() {
         timer.cancel();
+        this.connectability=false;
         int option = JOptionPane.showConfirmDialog(null, "You are lose!\nDo you want to play again?", "Notification", JOptionPane.YES_NO_OPTION);
         if (option == JOptionPane.YES_OPTION) {
             reset();
@@ -237,6 +241,7 @@ public class PlayController {
         if (curChallenge < totalChallenge) {
             curChallenge++;
         }
+        this.connectability=false;
         timer.cancel();
         int option = JOptionPane.showConfirmDialog(null, "You are win!\nDo you want to go to next challenge?", "Notification", JOptionPane.YES_NO_OPTION);
         if (option == JOptionPane.YES_OPTION) {
@@ -247,6 +252,7 @@ public class PlayController {
     public void reset() {
         this.models.reset();
         this.timer.reset();
+        this.connectability=true;
         this.views.getPlayViews().reset();
         setEnableBtn(true);
         this.playPanel.setHint(false);

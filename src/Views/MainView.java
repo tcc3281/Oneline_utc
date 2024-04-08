@@ -68,8 +68,7 @@ public class MainView extends JFrame implements ActionListener {
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                showDialogClose();
-                super.windowClosing(e);
+                controller.saveData();
             }
         });
     }
@@ -86,7 +85,9 @@ public class MainView extends JFrame implements ActionListener {
             cardLayout.show(JP, "Play");
             this.controller.runTime();
         } else if (e.getSource() == homeView.getBtnExit()) {
-            showDialogClose();
+            if(showDialogClose()){
+                System.exit(0);
+            }
         } else if (e.getSource() == levelView.getBtnBackLevel()) {
             cardLayout.show(JP, "Home");
         } else if (e.getSource() == challengesView.getBtnBackChallenges()) {
@@ -120,12 +121,13 @@ public class MainView extends JFrame implements ActionListener {
         }
 
     }
-    private void showDialogClose(){
+    private boolean showDialogClose(){
         int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit the application?", "Exit Confirmation", JOptionPane.YES_NO_OPTION);
         if (option == JOptionPane.YES_OPTION) {
             this.controller.saveData();
-            System.exit(0);
+            return true;
         }
+        return false;
     }
     public PlayView getPlayViews() {
         return playView;
