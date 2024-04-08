@@ -32,7 +32,7 @@ public class LinePanel extends JPanel implements ActionListener {
 
     public LinePanel(int w, int h) {
         super();
-        isHint=false;
+        isHint = false;
         this.roundButtons = new ArrayList<>();
         this.roundLabels = new HashMap<>();
         this.setBackground(LinePanel.WHITE);
@@ -170,7 +170,10 @@ public class LinePanel extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(!isHint){
+        if (!this.controller.isConnectability()) {
+            return;
+        }
+        if (!isHint) {
             RoundButton r = (RoundButton) e.getSource();
             int x = r.getX();
             int y = r.getY();
@@ -179,9 +182,9 @@ public class LinePanel extends JPanel implements ActionListener {
             if (position != -1) {
                 this.controller.connect(position);
             }
-        }else {
+        } else {
             RoundButton r = (RoundButton) e.getSource();
-            if(!r.isBlink()){
+            if (!r.isBlink()) {
                 return;
             }
             int x = r.getX();

@@ -19,12 +19,9 @@ public class MainView extends JFrame implements ActionListener {
     private JPanel JP;
     private CardLayout cardLayout;
     private PlayController controller;
+
     public LevelView getLevelView() {
         return levelView;
-    }
-
-    public void setLevelView(LevelView levelView) {
-        this.levelView = levelView;
     }
 
     public MainView(PlayController controller) {
@@ -68,7 +65,7 @@ public class MainView extends JFrame implements ActionListener {
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                showDialogClose();
+                controller.saveData();
                 super.windowClosing(e);
             }
         });
@@ -86,7 +83,9 @@ public class MainView extends JFrame implements ActionListener {
             cardLayout.show(JP, "Play");
             this.controller.runTime();
         } else if (e.getSource() == homeView.getBtnExit()) {
-            showDialogClose();
+            if (showDialogClose()) {
+                System.exit(0);
+            }
         } else if (e.getSource() == levelView.getBtnBackLevel()) {
             cardLayout.show(JP, "Home");
         } else if (e.getSource() == challengesView.getBtnBackChallenges()) {
@@ -100,17 +99,15 @@ public class MainView extends JFrame implements ActionListener {
             this.controller.reset();
         } else if (e.getSource() == playView.getBtnReturn()) {
             this.controller.back();
-        } else if(e.getSource() == levelView.getSaveButton())
-        {
+        } else if (e.getSource() == levelView.getSaveButton()) {
             this.controller.setTime();
             cardLayout.show(JP, "Home");
-        } else if(e.getSource() == playView.getBtnNext())
-        {
+        } else if (e.getSource() == playView.getBtnNext()) {
             this.controller.nextChallenges();
-        }else {
+        } else {
             int position = challengesView.getLstItem().indexOf((JButton) e.getSource()) + 1;
-            if(position>this.controller.getCurChallenge()){
-                JOptionPane.showMessageDialog(null,"You can't choose this challenge!","Notification",JOptionPane.INFORMATION_MESSAGE);
+            if (position > this.controller.getCurChallenge()) {
+                JOptionPane.showMessageDialog(null, "You can't choose this challenge!", "Notification", JOptionPane.INFORMATION_MESSAGE);
                 return;
             }
             this.controller.setCurPlay(position);
@@ -120,17 +117,21 @@ public class MainView extends JFrame implements ActionListener {
         }
 
     }
-    private void showDialogClose(){
+
+    private boolean showDialogClose() {
+        this.controller.saveData();
         int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit the application?", "Exit Confirmation", JOptionPane.YES_NO_OPTION);
         if (option == JOptionPane.YES_OPTION) {
-            this.controller.saveData();
-            System.exit(0);
+            return true;
         }
+        return false;
     }
+
     public PlayView getPlayViews() {
         return playView;
     }
-    public ChallengesView getChallengesView(){
+
+    public ChallengesView getChallengesView() {
         return challengesView;
     }
 }

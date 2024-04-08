@@ -17,8 +17,6 @@ import java.util.List;
 import java.util.Timer;
 
 public class PlayController {
-
-
     private MainView views;
     private Graph models;
     private CountdownTimer timer;
@@ -31,6 +29,7 @@ public class PlayController {
     private LinkedList<Point> hintValue;
     private final String PATH = ".\\src\\Resources\\Datas\\data.txt";
     public Color playerColor = null;
+    private boolean connectability = true;
 
     public PlayController() {
         readData();
@@ -42,9 +41,11 @@ public class PlayController {
         this.playPanel = views.getPlayViews().getMainPlay();
         this.playPanel.setController(this);
     }
-    public int getTotalChallenge(){
+
+    public int getTotalChallenge() {
         return totalChallenge;
     }
+
     public void ramdomColor() {
         int color = (int) (Math.random() * 4);
         switch (color) {
@@ -165,13 +166,12 @@ public class PlayController {
     public void callHint() {
         if (this.hintValue == null) {
             this.reset();
-            this.views.getPlayViews().getBtnHint().setEnabled(false);
-            this.views.getPlayViews().getBtnReturn().setEnabled(false);
+            setEnableBtn(false);
             this.playPanel.setHint(true);
             hint.setChallenge(this.curPlay);
             this.hintValue = hint.solve();
         }
-        if(this.hintValue.isEmpty()){
+        if (this.hintValue.isEmpty()) {
             this.playPanel.setHint(false);
             return;
         }
@@ -218,8 +218,7 @@ public class PlayController {
             }
             if (this.models.isWinner()) {
                 this.playPanel.blink(next.getX(), next.getY(), false);
-                this.views.getPlayViews().getBtnReturn().setEnabled(false);
-                this.views.getPlayViews().getBtnHint().setEnabled(false);
+                setEnableBtn(false);
                 winner();
             }
         }
@@ -231,14 +230,15 @@ public class PlayController {
         if (option == JOptionPane.YES_OPTION) {
             reset();
         }
-
+        this.connectability = false;
     }
 
     public void winner() {
-        if(curChallenge<totalChallenge){
+        if (curChallenge < totalChallenge) {
             curChallenge++;
         }
         timer.cancel();
+        this.connectability = false;
         int option = JOptionPane.showConfirmDialog(null, "You are win!\nDo you want to go to next challenge?", "Notification", JOptionPane.YES_NO_OPTION);
         if (option == JOptionPane.YES_OPTION) {
             nextChallenges();
@@ -250,12 +250,17 @@ public class PlayController {
         this.timer.reset();
         this.views.getPlayViews().reset();
         this.playPanel.setHint(false);
-        this.views.getPlayViews().getBtnReturn().setEnabled(true);
-        this.views.getPlayViews().getBtnHint().setEnabled(true);
+        this.connectability = true;
+        setEnableBtn(true);
         if (this.hintValue != null) {
             this.hintValue.clear();
             this.hintValue = null;
         }
+    }
+
+    public void setEnableBtn(boolean enableBtn) {
+        this.views.getPlayViews().getBtnReturn().setEnabled(enableBtn);
+        this.views.getPlayViews().getBtnHint().setEnabled(enableBtn);
     }
 
     public void back() {
@@ -266,7 +271,7 @@ public class PlayController {
         if (after == null) {
             return;
         }
-        if (this.models.back(true)) {
+        if (this.models.back(false)) {
             Point prev = this.models.getCur();
             this.playPanel.blink(after.getX(), after.getY(), false);
             this.views.getPlayViews().setNumberHeart(this.models.getTimesLeftBack());
@@ -280,7 +285,7 @@ public class PlayController {
                 this.playPanel.reset();
             }
         } else {
-            System.out.println("Can't back");
+            JOptionPane.showMessageDialog(null, "You only back 3 times", "Notification", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
@@ -304,12 +309,13 @@ public class PlayController {
             views.getLevelView().getjSPCustom().setValue(date);
         }
     }
-    public void nextChallenges(){
-        if(curPlay >= curChallenge){
+
+    public void nextChallenges() {
+        if (curPlay >= curChallenge) {
             return;
         }
-        if(curPlay == totalChallenge){
-            curPlay=0;
+        if (curPlay == totalChallenge) {
+            curPlay = 0;
         }
         curPlay++;
         setChallenge();
@@ -323,5 +329,9 @@ public class PlayController {
 
     public int getCurChallenge() {
         return curChallenge;
+    }
+
+    public boolean isConnectability() {
+        return connectability;
     }
 }
