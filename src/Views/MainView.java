@@ -92,11 +92,10 @@ public class MainView extends JFrame implements ActionListener {
             cardLayout.show(JP, "Home");
         } else if (e.getSource() == playView.getBtnBackPlay()) {
             cardLayout.show(JP, "Home");
-            this.controller.pauseTime();
         } else if (e.getSource() == playView.getBtnHint()) {
             this.controller.callHint();
         } else if (e.getSource() == playView.getBtnReset()) {
-            this.controller.reset();
+            this.controller.reset(true);
         } else if (e.getSource() == playView.getBtnReturn()) {
             this.controller.back();
         } else if (e.getSource() == levelView.getSaveButton()) {
