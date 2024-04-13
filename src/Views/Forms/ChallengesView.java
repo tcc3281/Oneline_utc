@@ -22,8 +22,8 @@ public class ChallengesView {
         lstItem = new ArrayList<>();
     }
 
-    public JPanel getJPanelChallenges(int c) {
-        AddItems(c);
+    public JPanel getJPanelChallenges(int c,int curChallenge) {
+        AddItems(c,curChallenge);
         return JPanelChallenges;
     }
 
@@ -35,12 +35,16 @@ public class ChallengesView {
         return btnBackChallenges;
     }
 
-    public void AddItems(int count) {
+    public void AddItems(int count, int curChallenge) {
         ChallengesItem item;
         int numRows = (int) Math.ceil((double) count / 2);
         JPItem.setLayout(new GridLayout(numRows, 2, 20, 20)); // Đặt GridLayout cho JPItem
         for (int i = 1; i <= count; i++) {
             item = new ChallengesItem(i);
+            if (i <= curChallenge) {
+                ImageIcon imageIcon = readImageFromLevelFolder("Level" + i +".png");
+                item.setBackgroundImage(imageIcon);
+            }
             item.getJPanelItem().setPreferredSize(new Dimension(100, 150));
             JPItem.add(item.getJPanelItem());
             lstItem.add(item.getBtnPlayItem());
@@ -53,8 +57,21 @@ public class ChallengesView {
             item.addActionListener(ac);
         }
     }
-
+    // Phương thức đọc ảnh từ thư mục level
+    public ImageIcon readImageFromLevelFolder(String imageName) {
+        return new ImageIcon(getClass().getResource("/Resources/Images/Level/" + imageName));
+    }
     public ArrayList<JButton> getLstItem() {
         return lstItem;
+    }
+
+    public void updateItems(int curChallenge) {
+        // Remove all current components from JPItem
+        JPItem.removeAll();
+        // Add the items again with the updated curChallenge
+        AddItems(lstItem.size(), curChallenge);
+        // Revalidate and repaint JPItem to reflect the changes
+        JPItem.revalidate();
+        JPItem.repaint();
     }
 }

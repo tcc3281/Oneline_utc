@@ -56,7 +56,7 @@ public class MainView extends JFrame implements ActionListener {
 
         JP.add(homeView.getJPanelHome(), "Home");
         JP.add(levelView.getJPanelLevel(), "Level");
-        JP.add(challengesView.getJPanelChallenges(this.controller.getTotalChallenge()), "Challenges");
+        JP.add(challengesView.getJPanelChallenges(this.controller.getTotalChallenge(), this.controller.getCurChallenge()), "Challenges");
         JP.add(playView.getJPanelPlay(), "Play");
 
         challengesView.addListener(this);
