@@ -233,7 +233,7 @@ public class PlayController {
     }
 
     public void winner() {
-        if (curChallenge < totalChallenge) {
+        if (curChallenge < totalChallenge+1) {
             curChallenge++;
             // Cập nhật hình ảnh khi curChallenge thay đổi
             views.getChallengesView().updateItems(curChallenge);
