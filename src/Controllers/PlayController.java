@@ -235,6 +235,8 @@ public class PlayController {
     public void winner() {
         if (curChallenge < totalChallenge) {
             curChallenge++;
+            // Cập nhật hình ảnh khi curChallenge thay đổi
+            views.getChallengesView().updateItems(curChallenge);
         }
         timer.cancel();
         this.connectability = false;

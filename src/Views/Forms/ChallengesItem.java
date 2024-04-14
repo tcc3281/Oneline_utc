@@ -1,6 +1,7 @@
 package Views.Forms;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class ChallengesItem {
     private JPanel JPanelItem;
@@ -28,5 +29,24 @@ public class ChallengesItem {
 
     public JLabel getTxtNumber() {
         return txtNumber;
+    }
+    // Trong lớp ChallengesItem
+    public void setBackgroundImage(ImageIcon imageIcon) {
+        JLabel backgroundLabel = new JLabel();
+        backgroundLabel.setIcon(imageIcon);
+        backgroundLabel.setLayout(new BorderLayout());
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = GridBagConstraints.REMAINDER;
+        gbc.gridheight = GridBagConstraints.REMAINDER;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+
+        JPanelItem.add(backgroundLabel, gbc);
+        JPanelItem.setComponentZOrder(backgroundLabel, JPanelItem.getComponentCount() - 1); // Đặt backgroundLabel ở dưới cùng
+
     }
 }
